@@ -24,4 +24,10 @@
 		<nature>org.eclipse.cdt.core.ccnature</nature>
 		<nature>org.eclipse.cdt.managedbuilder.core.ScannerConfigNature</nature>
 	</natures>
+	<variableList>
+		<variable>
+			<name>INSTALLROOT_TO_FIXEDPTLIB</name>
+			<value>file:/C:/ti/c2000/C2000Ware_4_02_00_00/libraries/dsp/FixedPoint/c28</value>
+		</variable>
+	</variableList>
 </projectDescription>
