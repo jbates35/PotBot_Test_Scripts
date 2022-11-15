@@ -35,6 +35,7 @@ main.obj: ../Peripheral_Headers/F2802x_XIntrupt.h
 main.obj: ../F2807x_EPwm_defines.h
 main.obj: ../servo.h
 main.obj: ../adc.h
+main.obj: ../dsp.h
 
 ../main.c:
 
@@ -105,4 +106,6 @@ C:/ti/ccs1040/ccs/tools/compiler/ti-cgt-c2000_20.2.5.LTS/include/sys/_stdint.h:
 ../servo.h:
 
 ../adc.h:
+
+../dsp.h:
 

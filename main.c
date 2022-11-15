@@ -3,19 +3,39 @@
 
 #include "servo.h"
 #include "adc.h"
+#include "dsp.h"
 
 /**
  * main.c
  */
 
+//Stuff for input arrays
+#define INPUT_SIZE 100 // Size of input array
+
+int16_t adc_in_x[] = {[0 ... INPUT_SIZE*2-1] = 0}; // adc for x
+int16_t adc_in_y[] = {[0 ... INPUT_SIZE*2-1] = 0}; // adc for y
+int16_t out_x = 0; // output buffer for x
+int16_t out_y = 0; // output buffer for y
+
+int16_t fir_N;          //Length of array
+int16_t fir_counter;    // Point of array where FIR is calculated from
+
+
+N = INPUT_SIZE;
+fir_counter = INPUT_SIZE-1;
+
+//End stuff for input arrays
+
+
+
 int main(void)
 {
     //For testing adc
-    uint16_t adc_read1, adc_read2;
+    int16_t adc_read0;
 
     DeviceInit();
 
-    CpuTimer0Regs.PRD.all = mSec1;
+    CpuTimer0Regs.PRD.all = mSec1 * 20;
     CpuTimer1Regs.PRD.all = mSec100;
 
     //Set servo
@@ -33,6 +53,11 @@ int main(void)
         if(CpuTimer1Regs.TCR.bit.TIF==1) {
             CpuTimer1Regs.TCR.bit.TIF=1;
             temperature = temp_sample(true); // Sample temperature, start conversion
+
+            //Get N value
+            adc_read0 = adc_sample(0, true); //Start soc and sample
+            y_fit(&fir_N, &adc_read0, 0,4095, 1,100); // Change 0-4095->1-100
+
         }
         if(CpuTimer0Regs.TCR.bit.TIF==1) {
             CpuTimer0Regs.TCR.bit.TIF=1;
@@ -41,10 +66,21 @@ int main(void)
             //adc_read1 = adc_sample(0, false); //Sample ADCRESULT0, start conversion
 
             //Example of a adc sample where soc is needed (such as when there's no trigger set)
-            adc_read1 = adc_sample(0, true); //Sample ADCRESULT0, start conversion
+            //adc_read1 = adc_sample(0, true); //Sample ADCRESULT0, start conversion
+
+            //Start input array
+            adc_in_x[fir_counter] = adc_sample(1, true); //Sample ADCRESULT0, start conversion
+            adc_in_x[fir_counter+INPUT_SIZE] = adc_in_x[fir_counter];
+
+            //Calculate moving average
+            moving_average(&out_x, &adc_in_x, fir_N, fir_counter);
 
             //Example of setting servo
-            servo_set(0, adc_read1); // Set servo, note adc_read MUST be uint16_t
+            servo_set(0, out_x); // Set servo, note adc_read MUST be uint16_t
+
+            //Move counter of where to start from in FIR circular buffer
+            if(fir_counter==0) fir_counter=INPUT_SIZE-1; //Rollover
+            else fir_counter--;
 
         }
     }

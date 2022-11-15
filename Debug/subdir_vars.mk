@@ -12,36 +12,42 @@ CMD_SRCS += \
 C_SRCS += \
 ../DevInit.c \
 ../adc.c \
+../dsp.c \
 ../main.c \
 ../servo.c 
 
 C_DEPS += \
 ./DevInit.d \
 ./adc.d \
+./dsp.d \
 ./main.d \
 ./servo.d 
 
 OBJS += \
 ./DevInit.obj \
 ./adc.obj \
+./dsp.obj \
 ./main.obj \
 ./servo.obj 
 
 OBJS__QUOTED += \
 "DevInit.obj" \
 "adc.obj" \
+"dsp.obj" \
 "main.obj" \
 "servo.obj" 
 
 C_DEPS__QUOTED += \
 "DevInit.d" \
 "adc.d" \
+"dsp.d" \
 "main.d" \
 "servo.d" 
 
 C_SRCS__QUOTED += \
 "../DevInit.c" \
 "../adc.c" \
+"../dsp.c" \
 "../main.c" \
 "../servo.c" 
 

@@ -89,4 +89,21 @@ int16_t adc_sample(int channel, bool soc);
 //***************************//
 int32 temp_sample(bool soc);
 
+
+//******* y_fit16 ***********//
+//
+// Allows for a conversion of an input within a certain range to a 16-bit output within a certain range
+//
+// Arguments:
+// int16_t *out - pointer of output variable you want changed
+// int16_t *in - pointer of input variable to change to out
+// int x_min - input minimum
+// int x_max - input maximum
+// int y_min - output minimum
+// int y_max - output maximum
+//
+// Return: none
+//***************************//
+void y_fit(int16_t *out, int16_t *in, int x_min, int x_max, int y_min, int y_max);
+
 #endif /* ADC_H_ */

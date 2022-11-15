@@ -12,6 +12,7 @@ GEN_CMDS__FLAG :=
 ORDERED_OBJS += \
 "./DevInit.obj" \
 "./adc.obj" \
+"./dsp.obj" \
 "./main.obj" \
 "./servo.obj" \
 "./Peripheral_Headers/F2802x_GlobalVariableDefs.obj" \
@@ -161,8 +162,8 @@ M_PotBot_test_scripts.hex: $(EXE_OUTPUTS)
 # Other Targets
 clean:
 	-$(RM) $(BIN_OUTPUTS__QUOTED)$(EXE_OUTPUTS__QUOTED)
-	-$(RM) "DevInit.obj" "adc.obj" "main.obj" "servo.obj" "Peripheral_Headers\F2802x_GlobalVariableDefs.obj" 
-	-$(RM) "DevInit.d" "adc.d" "main.d" "servo.d" "Peripheral_Headers\F2802x_GlobalVariableDefs.d" 
+	-$(RM) "DevInit.obj" "adc.obj" "dsp.obj" "main.obj" "servo.obj" "Peripheral_Headers\F2802x_GlobalVariableDefs.obj" 
+	-$(RM) "DevInit.d" "adc.d" "dsp.d" "main.d" "servo.d" "Peripheral_Headers\F2802x_GlobalVariableDefs.d" 
 	-@echo 'Finished clean'
 	-@echo ' '
 
