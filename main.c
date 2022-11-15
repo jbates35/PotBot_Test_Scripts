@@ -55,8 +55,8 @@ int main(void)
             temperature = temp_sample(true); // Sample temperature, start conversion
 
             //Get N value
-            adc_read0 = adc_sample(0, true); //Start soc and sample
-            y_fit(&fir_N, &adc_read0, 0,4095, 1,100); // Change 0-4095->1-100
+            //adc_read0 = adc_sample(0, true); //Start soc and sample
+            //y_fit(&fir_N, &adc_read0, 0,4095, 1,100); // Change 0-4095->1-100
 
         }
         if(CpuTimer0Regs.TCR.bit.TIF==1) {
@@ -81,6 +81,10 @@ int main(void)
             //Move counter of where to start from in FIR circular buffer
             if(fir_counter==0) fir_counter=INPUT_SIZE-1; //Rollover
             else fir_counter--;
+
+            //Get N value
+            adc_read0 = adc_sample(0, true); //Start soc and sample
+            y_fit(&fir_N, &adc_read0, 0,4095, 10,100); // Change 0-4095->10-100
 
         }
     }

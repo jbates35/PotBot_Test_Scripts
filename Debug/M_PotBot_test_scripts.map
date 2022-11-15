@@ -1,7 +1,7 @@
 ******************************************************************************
              TMS320C2000 Linker PC v20.2.5                     
 ******************************************************************************
->> Linked Mon Nov 14 18:10:05 2022
+>> Linked Mon Nov 14 22:27:10 2022
 
 OUTPUT FILE NAME:   <M_PotBot_test_scripts.out>
 ENTRY POINT SYMBOL: "_c_int00"  address: 000084c5
@@ -14,7 +14,7 @@ MEMORY CONFIGURATION
 PAGE 0:
   BEGIN                 00000000   00000002  00000000  00000002  RWIX
   RAMM0                 00000050   000003b0  000000f5  000002bb  RWIX
-  PRAML0                00008000   00000900  00000610  000002f0  RWIX
+  PRAML0                00008000   00000900  00000611  000002ef  RWIX
   IQTABLES              003fe000   00000b50  00000000  00000b50  RWIX
   IQTABLES2             003feb50   0000008c  00000000  0000008c  RWIX
   IQTABLES3             003febdc   000000aa  00000000  000000aa  RWIX
@@ -69,7 +69,7 @@ section   page    origin      length       input sections
                   0000013e    00000005                    : _lock.c.obj (.cinit:__unlock)
                   00000143    00000002     --HOLE-- [fill = 0]
 
-.text      0    00008000    00000610     
+.text      0    00008000    00000611     
                   00008000    0000018b     servo.obj (.text)
                   0000818b    00000144     adc.obj (.text)
                   000082cf    00000119     DevInit.obj (.text)
@@ -78,15 +78,15 @@ section   page    origin      length       input sections
                   000084c5    00000054                    : boot28.asm.obj (.text)
                   00008519    0000002a                    : l_div28.asm.obj (.text)
                   00008543    00000029                    : exit.c.obj (.text)
-                  0000856c    00000024     dsp.obj (.text)
-                  00008590    00000024     rts2800_ml.lib : cpy_tbl.c.obj (.text)
-                  000085b4    0000001d                    : fs_tou28.asm.obj (.text)
-                  000085d1    0000001d                    : memcpy.c.obj (.text)
-                  000085ee    00000011                    : args_main.c.obj (.text)
-                  000085ff    00000009                    : _lock.c.obj (.text)
-                  00008608    00000005     DevInit.obj (.text:retain)
-                  0000860d    00000002     rts2800_ml.lib : pre_init.c.obj (.text)
-                  0000860f    00000001                    : startup.c.obj (.text)
+                  0000856c    00000025     dsp.obj (.text)
+                  00008591    00000024     rts2800_ml.lib : cpy_tbl.c.obj (.text)
+                  000085b5    0000001d                    : fs_tou28.asm.obj (.text)
+                  000085d2    0000001d                    : memcpy.c.obj (.text)
+                  000085ef    00000011                    : args_main.c.obj (.text)
+                  00008600    00000009                    : _lock.c.obj (.text)
+                  00008609    00000005     DevInit.obj (.text:retain)
+                  0000860e    00000002     rts2800_ml.lib : pre_init.c.obj (.text)
+                  00008610    00000001                    : startup.c.obj (.text)
 
 .pinit     0    00000050    00000000     UNINITIALIZED
 
@@ -252,9 +252,9 @@ MODULE SUMMARY
        servo.obj                       395    0                  16                
        adc.obj                         324    0                  2                 
        DevInit.obj                     286    0                  0                 
-       dsp.obj                         36     0                  0                 
+       dsp.obj                         37     0                  0                 
     +--+-------------------------------+------+------------------+--------------------+
-       Total:                          1172   251                223               
+       Total:                          1173   251                223               
                                                                                    
     .\Peripheral_Headers\
        F2802x_GlobalVariableDefs.obj   0      0                  1052              
@@ -278,7 +278,7 @@ MODULE SUMMARY
                                                                                    
        Stack:                          0      0                  768               
     +--+-------------------------------+------+------------------+--------------------+
-       Grand Total:                    1552   275                2053              
+       Grand Total:                    1553   275                2053              
 
 
 GLOBAL DATA SYMBOLS: SORTED BY DATA PAGE
@@ -367,7 +367,7 @@ page  address   name
 0     00008000  .text                           
 0     00008543  C$$EXIT                         
 0     0000846b  FS$$MPY                         
-0     000085b4  FS$$TOU                         
+0     000085b5  FS$$TOU                         
 0     00008519  L$$DIV                          
 0     00008528  L$$MOD                          
 0     00008536  UL$$DIV                         
@@ -397,7 +397,7 @@ page  address   name
 1     00006fc0  _GpioDataRegs                   
 1     00006fe0  _GpioIntRegs                    
 1     00007900  _I2caRegs                       
-0     00008608  _ISR_ILLEGAL                    
+0     00008609  _ISR_ILLEGAL                    
 0     000083d5  _MemCopy                        
 1     000089e1  _N                              
 1     00007060  _NmiIntruptRegs                 
@@ -426,19 +426,19 @@ abs   ffffffff  ___TI_prof_data_start
 abs   ffffffff  ___binit__                      
 abs   ffffffff  ___c_args__                     
 0     00000050  ___cinit__                      
-0     00008610  ___etext__                      
+0     00008611  ___etext__                      
 abs   ffffffff  ___pinit__                      
 1     000089c8  ___servos_c_pwm_max             
 1     000089d0  ___servos_c_pwm_min             
 0     00008000  ___text__                       
-0     000085ee  __args_main                     
+0     000085ef  __args_main                     
 1     000089e4  __lock                          
-0     00008607  __nop                           
-0     00008603  __register_lock                 
-0     000085ff  __register_unlock               
+0     00008608  __nop                           
+0     00008604  __register_lock                 
+0     00008600  __register_unlock               
 1     00000400  __stack                         
-0     0000860f  __system_post_cinit             
-0     0000860d  __system_pre_init               
+0     00008610  __system_post_cinit             
+0     0000860e  __system_pre_init               
 1     000089e6  __unlock                        
 0     00008543  _abort                          
 1     00008900  _adc_in_x                       
@@ -446,12 +446,12 @@ abs   ffffffff  ___pinit__
 0     00008250  _adc_sample                     
 0     00008208  _adc_trigger_select             
 0     000084c5  _c_int00                        
-0     00008590  _copy_in                        
+0     00008591  _copy_in                        
 0     00008545  _exit                           
 1     000089e0  _fir_N                          
 1     000089e2  _fir_counter                    
 0     000083e8  _main                           
-0     000085d1  _memcpy                         
+0     000085d2  _memcpy                         
 0     0000856c  _moving_average                 
 1     000089de  _out_x                          
 1     000089df  _out_y                          
@@ -461,7 +461,7 @@ abs   ffffffff  ___pinit__
 0     000082ae  _y_fit                          
 abs   ffffffff  binit                           
 0     00000050  cinit                           
-0     00008610  etext                           
+0     00008611  etext                           
 abs   ffffffff  pinit                           
 
 
@@ -497,18 +497,18 @@ page  address   name
 0     00008543  _abort                          
 0     00008545  _exit                           
 0     0000856c  _moving_average                 
-0     00008590  _copy_in                        
-0     000085b4  FS$$TOU                         
-0     000085d1  _memcpy                         
-0     000085ee  __args_main                     
-0     000085ff  __register_unlock               
-0     00008603  __register_lock                 
-0     00008607  __nop                           
-0     00008608  _ISR_ILLEGAL                    
-0     0000860d  __system_pre_init               
-0     0000860f  __system_post_cinit             
-0     00008610  ___etext__                      
-0     00008610  etext                           
+0     00008591  _copy_in                        
+0     000085b5  FS$$TOU                         
+0     000085d2  _memcpy                         
+0     000085ef  __args_main                     
+0     00008600  __register_unlock               
+0     00008604  __register_lock                 
+0     00008608  __nop                           
+0     00008609  _ISR_ILLEGAL                    
+0     0000860e  __system_pre_init               
+0     00008610  __system_post_cinit             
+0     00008611  ___etext__                      
+0     00008611  etext                           
 1     00000400  __stack                         
 1     00000700  __STACK_END                     
 1     00000880  _DevEmuRegs                     

@@ -20,13 +20,13 @@
 // Arguments:
 // int16_t out - output buffer
 // int16_t in - input array
-// uint8_t N - how many terms to be averaged
-// uint8_t start - position pointer should be at for input
+// int16_t N - how many terms to be averaged
+// int16_t start - position pointer should be at for input
 //
 // Return : None
 //
 //**************************//
-void moving_average(int16_t *out, int16_t *in, uint8_t N, uint8_t start);
+void moving_average(int16_t *out, int16_t *in, int16_t N, int16_t start);
 
 
 #endif /* DSP_H_ */

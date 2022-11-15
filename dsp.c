@@ -21,12 +21,15 @@
 
 #include "dsp.h"
 
-void moving_average(int16_t *out, int16_t *in, uint8_t N, uint8_t start) {
+
+
+void moving_average(int16_t *out, int16_t *in, int16_t N, int16_t start) {
    // Pointer which holds input values
    int* p = NULL;
 
    //New variable for holding output (int32 to accept overflows)
    int32_t temp_out;
+   int32_t temp_out_divided;
 
    //Iterate through input
    for (p = in + start; p < in + (start + N); ++p) {
@@ -34,6 +37,7 @@ void moving_average(int16_t *out, int16_t *in, uint8_t N, uint8_t start) {
    }
 
    //Store output in buffer
-   temp_out /= N;
-   *out = (int16_t) temp_out;
+   temp_out_divided = temp_out / N;
+
+   *out = (int16_t) temp_out_divided;
 }
