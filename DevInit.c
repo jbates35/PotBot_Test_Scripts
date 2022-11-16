@@ -173,7 +173,7 @@ void DeviceInit(void)
 //--------------------------------------------------------------------------------------
 	//Changed this to be output = low at beginning //JB
 
-*/
+
 
 //  GPIO-02 - PIN FUNCTION = --Spare--
 	GpioCtrlRegs.GPAMUX1.bit.GPIO2 = 0;		// 0=GPIO,  1=EPWM2A,  2=Resv,  3=Resv
@@ -199,10 +199,13 @@ void DeviceInit(void)
 //	GpioDataRegs.GPACLEAR.bit.GPIO5 = 1;	// uncomment if --> Set Low initially
 //	GpioDataRegs.GPASET.bit.GPIO5 = 1;		// uncomment if --> Set High initially
 //--------------------------------------------------------------------------------------
+ *
+ */
+
 //  GPIO-06 - PIN FUNCTION = --Spare--
 	GpioCtrlRegs.GPAMUX1.bit.GPIO6 = 0;		// 0=GPIO,  1=EPWM4A,  2=SYNCI,  3=SYNCO
-	GpioCtrlRegs.GPADIR.bit.GPIO6 = 0;		// 1=OUTput,  0=INput 
-//	GpioDataRegs.GPACLEAR.bit.GPIO6 = 1;	// uncomment if --> Set Low initially
+	GpioCtrlRegs.GPADIR.bit.GPIO6 = 1;		// 1=OUTput,  0=INput
+	GpioDataRegs.GPACLEAR.bit.GPIO6 = 1;	// uncomment if --> Set Low initially
 //	GpioDataRegs.GPASET.bit.GPIO6 = 1;		// uncomment if --> Set High initially
 //--------------------------------------------------------------------------------------
 //  GPIO-07 - PIN FUNCTION = --Spare--

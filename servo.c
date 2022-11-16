@@ -9,6 +9,7 @@
  */
 
 #include "servo.h"
+#include "adc.h"
 
 //Servo parameters - made global so they don't have to be recalculated
 uint16_t __servos_c_pwm_min[8];
@@ -158,13 +159,15 @@ void servo_init(int servos, float dc_min[8], float dc_max[8]);
 // Return : None
 //
 //**************************//
+uint16_t input_conv;
 void servo_set(uint16_t channel, uint16_t input) {
 
     //Vars for calculating servo position
-    uint32_t input_conv;
+    //uint16_t input_conv;
 
     //Convert value for PWM
-    input_conv = ((uint32_t) __servos_c_pwm_max[channel] - (uint32_t) __servos_c_pwm_min[channel]) * (uint32_t) input / ADC_MAX + (uint32_t) __servos_c_pwm_min[channel];
+    //input_conv = ((uint32_t) __servos_c_pwm_max[channel] - (uint32_t) __servos_c_pwm_min[channel]) * ((uint32_t) input - (uint32_t) )/ (SERVO_MAX - SERVO-MIN) + (uint32_t) __servos_c_pwm_min[channel];
+    y_fit(&input, &input_conv, SERVO_MIN, SERVO_MAX, __servos_c_pwm_min[channel], __servos_c_pwm_max[channel]);
 
     EALLOW;
     switch(channel) {

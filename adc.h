@@ -25,6 +25,9 @@
 
 #define ADC_SETUP_CYCLE 1000 //cycles to wait for adc to power up
 
+#define ADC_MAX 4095
+#define ADC_MIN 0
+
 //Triggers for the trigger select registers on ADC
 #define TRIGGER_CPU_TIMER_0 0x1
 #define TRIGGER_CPU_TIMER_1 0x2

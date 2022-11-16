@@ -36,12 +36,11 @@
 
 #define SERVO_PERIOD 37499 // for 50hz
 
-#define SERVO_MAX 180   // max degrees
-#define SERVO_MIN 0     // min degrees
+#define SERVO_MAX 90   // max degrees
+#define SERVO_MIN -90     // min degrees
 
-#define ADC_MAX 4095
-#define ADC_MIN 0
-
+#define PWM_MIN 0
+#define PWM_MAX
 //Pointers to write the value to
 #define SERVO_1_REG EPwm1Regs.CMPA.half.CMPA
 #define SERVO_2_REG EPwm1Regs.CMPB

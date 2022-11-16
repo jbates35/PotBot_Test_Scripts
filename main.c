@@ -10,28 +10,27 @@
  */
 
 //Stuff for input arrays
-#define INPUT_SIZE 100 // Size of input array
 
-int16_t adc_in_x[] = {[0 ... INPUT_SIZE*2-1] = 0}; // adc for x
-int16_t adc_in_y[] = {[0 ... INPUT_SIZE*2-1] = 0}; // adc for y
-int16_t out_x = 0; // output buffer for x
-int16_t out_y = 0; // output buffer for y
+int16_t adc_in_x[] = {[0 ... FIR_INPUT_SIZE*2-1] = 0}; // adc for x
+int16_t adc_in_y[] = {[0 ... FIR_INPUT_SIZE*2-1] = 0}; // adc for y
+int16_t adc_out_x = 0; // output buffer for x
+int16_t adc_out_y = 0; // output buffer for y
 
 int16_t fir_N;          //Length of array
 int16_t fir_counter;    // Point of array where FIR is calculated from
 
 
-N = INPUT_SIZE;
-fir_counter = INPUT_SIZE-1;
+N = FIR_INPUT_SIZE;
+fir_counter = FIR_INPUT_SIZE-1;
 
 //End stuff for input arrays
 
-
+//For testing adc
+int16_t adc_result_FIR_N;
+int16_t servo_degs;
 
 int main(void)
 {
-    //For testing adc
-    int16_t adc_read0;
 
     DeviceInit();
 
@@ -46,6 +45,10 @@ int main(void)
 
     adc_init(3,true); //Initialize 3 ADC channels, and turn temperature sensor on
     //adc_trigger_select(0, TRIGGER_EPWM1A);
+
+
+    //Stuff for servo
+    //int16_t servo_degs = 0;
 
     int32_t temperature;
 
@@ -70,21 +73,30 @@ int main(void)
 
             //Start input array
             adc_in_x[fir_counter] = adc_sample(1, true); //Sample ADCRESULT0, start conversion
-            adc_in_x[fir_counter+INPUT_SIZE] = adc_in_x[fir_counter];
+            adc_in_x[fir_counter+FIR_INPUT_SIZE] = adc_in_x[fir_counter];
+
+            //Measure FIR:
+            GpioDataRegs.GPASET.bit.GPIO6 = 1;
 
             //Calculate moving average
-            moving_average(&out_x, &adc_in_x, fir_N, fir_counter);
+            moving_average(&adc_out_x, &adc_in_x, fir_N, fir_counter);
+
+            //End measure FIR
+            GpioDataRegs.GPACLEAR.bit.GPIO6 = 1;
+
+            //Convert adc to degrees
+            y_fit(&adc_out_x, &servo_degs, ADC_MIN, ADC_MAX, SERVO_MIN, SERVO_MAX);
 
             //Example of setting servo
-            servo_set(0, out_x); // Set servo, note adc_read MUST be uint16_t
+            servo_set(0, servo_degs); // Set servo, note adc_read MUST be uint16_t
 
             //Move counter of where to start from in FIR circular buffer
-            if(fir_counter==0) fir_counter=INPUT_SIZE-1; //Rollover
+            if(fir_counter==0) fir_counter=FIR_INPUT_SIZE-1; //Rollover
             else fir_counter--;
 
             //Get N value
-            adc_read0 = adc_sample(0, true); //Start soc and sample
-            y_fit(&fir_N, &adc_read0, 0,4095, 10,100); // Change 0-4095->10-100
+            adc_result_FIR_N = adc_sample(0, true); //Start soc and sample
+            y_fit(&adc_result_FIR_N, &fir_N, ADC_MIN, ADC_MAX, N_MIN, N_MAX); // Change 0-4095->10-100
 
         }
     }

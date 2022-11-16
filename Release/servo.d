@@ -34,7 +34,6 @@ servo.obj: ../Peripheral_Headers/F2802x_Spi.h
 servo.obj: ../Peripheral_Headers/F2802x_Sci.h
 servo.obj: ../Peripheral_Headers/F2802x_SysCtrl.h
 servo.obj: ../Peripheral_Headers/F2802x_XIntrupt.h
-servo.obj: ../adc.h
 
 ../servo.c:
 
@@ -103,6 +102,4 @@ C:/ti/ccs1040/ccs/tools/compiler/ti-cgt-c2000_20.2.5.LTS/include/sys/_stdint.h:
 ../Peripheral_Headers/F2802x_SysCtrl.h:
 
 ../Peripheral_Headers/F2802x_XIntrupt.h:
-
-../adc.h:
 

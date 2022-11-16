@@ -1,10 +1,10 @@
 ******************************************************************************
              TMS320C2000 Linker PC v20.2.5                     
 ******************************************************************************
->> Linked Tue Nov 15 20:49:07 2022
+>> Linked Tue Nov 15 18:14:58 2022
 
 OUTPUT FILE NAME:   <M_PotBot_test_scripts.out>
-ENTRY POINT SYMBOL: "_c_int00"  address: 000084d7
+ENTRY POINT SYMBOL: "_c_int00"  address: 00008498
 
 
 MEMORY CONFIGURATION
@@ -14,7 +14,7 @@ MEMORY CONFIGURATION
 PAGE 0:
   BEGIN                 00000000   00000002  00000000  00000002  RWIX
   RAMM0                 00000050   000003b0  000000f5  000002bb  RWIX
-  PRAML0                00008000   00000900  00000623  000002dd  RWIX
+  PRAML0                00008000   00000900  000005dd  00000323  RWIX
   IQTABLES              003fe000   00000b50  00000000  00000b50  RWIX
   IQTABLES2             003feb50   0000008c  00000000  0000008c  RWIX
   IQTABLES3             003febdc   000000aa  00000000  000000aa  RWIX
@@ -51,7 +51,7 @@ PAGE 1:
   XINTRUPT              00007070   00000010  00000010  00000000  RWIX
   ADC                   00007100   00000080  00000051  0000002f  RWIX
   I2CA                  00007900   00000040  00000022  0000001e  RWIX
-  DRAML0                00008900   00000700  0000010c  000005f4  RWIX
+  DRAML0                00008900   00000700  0000010a  000005f6  RWIX
   PARTID                003d7fff   00000001  00000001  00000000  RWIX
   CSM_PWL               003f7ff8   00000008  00000008  00000000  RWIX
 
@@ -69,24 +69,24 @@ section   page    origin      length       input sections
                   0000013e    00000005                    : _lock.c.obj (.cinit:__unlock)
                   00000143    00000002     --HOLE-- [fill = 0]
 
-.text      0    00008000    00000623     
-                  00008000    00000196     servo.obj (.text)
-                  00008196    00000143     adc.obj (.text)
-                  000082d9    00000109     DevInit.obj (.text)
-                  000083e2    0000009b     main.obj (.text)
-                  0000847d    0000005a     rts2800_ml.lib : fs_mpy28.asm.obj (.text)
-                  000084d7    00000054                    : boot28.asm.obj (.text)
-                  0000852b    0000002a                    : l_div28.asm.obj (.text)
-                  00008555    00000029                    : exit.c.obj (.text)
-                  0000857e    00000025     dsp.obj (.text)
-                  000085a3    00000024     rts2800_ml.lib : cpy_tbl.c.obj (.text)
-                  000085c7    0000001d                    : fs_tou28.asm.obj (.text)
-                  000085e4    0000001d                    : memcpy.c.obj (.text)
-                  00008601    00000011                    : args_main.c.obj (.text)
-                  00008612    00000009                    : _lock.c.obj (.text)
-                  0000861b    00000005     DevInit.obj (.text:retain)
-                  00008620    00000002     rts2800_ml.lib : pre_init.c.obj (.text)
-                  00008622    00000001                    : startup.c.obj (.text)
+.text      0    00008000    000005dd     
+                  00008000    0000018e     servo.obj (.text)
+                  0000818e    00000128     adc.obj (.text)
+                  000082b6    0000010a     DevInit.obj (.text)
+                  000083c0    0000007e     main.obj (.text)
+                  0000843e    0000005a     rts2800_ml.lib : fs_mpy28.asm.obj (.text)
+                  00008498    00000054                    : boot28.asm.obj (.text)
+                  000084ec    0000002a                    : l_div28.asm.obj (.text)
+                  00008516    00000029                    : exit.c.obj (.text)
+                  0000853f    00000024                    : cpy_tbl.c.obj (.text)
+                  00008563    0000001e     dsp.obj (.text)
+                  00008581    0000001d     rts2800_ml.lib : fs_tou28.asm.obj (.text)
+                  0000859e    0000001d                    : memcpy.c.obj (.text)
+                  000085bb    00000011                    : args_main.c.obj (.text)
+                  000085cc    00000009                    : _lock.c.obj (.text)
+                  000085d5    00000005     DevInit.obj (.text:retain)
+                  000085da    00000002     rts2800_ml.lib : pre_init.c.obj (.text)
+                  000085dc    00000001                    : startup.c.obj (.text)
 
 .pinit     0    00000050    00000000     UNINITIALIZED
 
@@ -96,20 +96,20 @@ section   page    origin      length       input sections
 .stack     1    00000400    00000300     UNINITIALIZED
                   00000400    00000300     --HOLE--
 
-.ebss      1    00008900    000000ec     UNINITIALIZED
+.ebss      1    00008900    000000ea     UNINITIALIZED
                   00008900    000000c8     main.obj (.ebss:_adc_in_x)
                   000089c8    00000008     servo.obj (.ebss:___servos_c_pwm_max)
                   000089d0    00000008     servo.obj (.ebss:___servos_c_pwm_min)
-                  000089d8    00000007     main.obj (.ebss)
-                  000089df    00000001     servo.obj (.ebss)
-                  000089e0    00000006     rts2800_ml.lib : exit.c.obj (.ebss)
-                  000089e6    00000002                    : _lock.c.obj (.ebss:__lock)
-                  000089e8    00000002                    : _lock.c.obj (.ebss:__unlock)
-                  000089ea    00000002     adc.obj (.ebss)
+                  000089d8    00000006     rts2800_ml.lib : exit.c.obj (.ebss)
+                  000089de    00000005     main.obj (.ebss)
+                  000089e3    00000001     --HOLE--
+                  000089e4    00000002     rts2800_ml.lib : _lock.c.obj (.ebss:__lock)
+                  000089e6    00000002                    : _lock.c.obj (.ebss:__unlock)
+                  000089e8    00000002     adc.obj (.ebss)
 
-.econst    1    000089ec    00000020     
-                  000089ec    00000010     main.obj (.econst:_$P$T0$1)
-                  000089fc    00000010     main.obj (.econst:_$P$T1$2)
+.econst    1    000089ea    00000020     
+                  000089ea    00000010     main.obj (.econst:_$P$T0$1)
+                  000089fa    00000010     main.obj (.econst:_$P$T1$2)
 
 DevEmuRegsFile 
 *          1    00000880    00000004     UNINITIALIZED
@@ -248,13 +248,13 @@ MODULE SUMMARY
        Module                          code   initialized data   uninitialized data
        ------                          ----   ----------------   ------------------
     .\
-       main.obj                        155    251                207               
-       servo.obj                       406    0                  17                
-       adc.obj                         323    0                  2                 
-       DevInit.obj                     270    0                  0                 
-       dsp.obj                         37     0                  0                 
+       main.obj                        126    251                205               
+       servo.obj                       398    0                  16                
+       adc.obj                         296    0                  2                 
+       DevInit.obj                     271    0                  0                 
+       dsp.obj                         30     0                  0                 
     +--+-------------------------------+------+------------------+--------------------+
-       Total:                          1191   251                226               
+       Total:                          1121   251                223               
                                                                                    
     .\Peripheral_Headers\
        F2802x_GlobalVariableDefs.obj   0      0                  1052              
@@ -278,7 +278,7 @@ MODULE SUMMARY
                                                                                    
        Stack:                          0      0                  768               
     +--+-------------------------------+------+------------------+--------------------+
-       Grand Total:                    1571   275                2056              
+       Grand Total:                    1501   275                2053              
 
 
 GLOBAL DATA SYMBOLS: SORTED BY DATA PAGE
@@ -342,21 +342,18 @@ address     data page           name
 
 000089c8     227 (000089c0)     ___servos_c_pwm_max
 000089d0     227 (000089c0)     ___servos_c_pwm_min
-000089d8     227 (000089c0)     _adc_out_x
-000089d9     227 (000089c0)     _adc_out_y
-000089da     227 (000089c0)     _fir_N
-000089db     227 (000089c0)     _N
-000089dc     227 (000089c0)     _fir_counter
-000089dd     227 (000089c0)     _adc_result_FIR_N
-000089de     227 (000089c0)     _servo_degs
-000089df     227 (000089c0)     _input_conv
-000089e0     227 (000089c0)     ___TI_enable_exit_profile_output
-000089e2     227 (000089c0)     ___TI_cleanup_ptr
-000089e4     227 (000089c0)     ___TI_dtors_ptr
-000089e6     227 (000089c0)     __lock
-000089e8     227 (000089c0)     __unlock
-000089ea     227 (000089c0)     ___adc_c_temp_slope
-000089eb     227 (000089c0)     ___adc_c_temp_offset
+000089d8     227 (000089c0)     ___TI_enable_exit_profile_output
+000089da     227 (000089c0)     ___TI_cleanup_ptr
+000089dc     227 (000089c0)     ___TI_dtors_ptr
+000089de     227 (000089c0)     _out_x
+000089df     227 (000089c0)     _out_y
+000089e0     227 (000089c0)     _fir_N
+000089e1     227 (000089c0)     _N
+000089e2     227 (000089c0)     _fir_counter
+000089e4     227 (000089c0)     __lock
+000089e6     227 (000089c0)     __unlock
+000089e8     227 (000089c0)     ___adc_c_temp_slope
+000089e9     227 (000089c0)     ___adc_c_temp_offset
 
 003d7fff    f5ff (003d7fc0)     _PartIdRegs
 
@@ -368,13 +365,13 @@ GLOBAL SYMBOLS: SORTED ALPHABETICALLY BY Name
 page  address   name                            
 ----  -------   ----                            
 0     00008000  .text                           
-0     00008555  C$$EXIT                         
-0     0000847d  FS$$MPY                         
-0     000085c7  FS$$TOU                         
-0     0000852b  L$$DIV                          
-0     0000853a  L$$MOD                          
-0     00008548  UL$$DIV                         
-0     0000854f  UL$$MOD                         
+0     00008516  C$$EXIT                         
+0     0000843e  FS$$MPY                         
+0     00008581  FS$$TOU                         
+0     000084ec  L$$DIV                          
+0     000084fb  L$$MOD                          
+0     00008509  UL$$DIV                         
+0     00008510  UL$$MOD                         
 1     00007100  _AdcRegs                        
 1     00000b00  _AdcResult                      
 1     00006400  _Comp1Regs                      
@@ -385,7 +382,7 @@ page  address   name
 1     003f7ff8  _CsmPwl                         
 1     00000ae0  _CsmRegs                        
 1     00000880  _DevEmuRegs                     
-0     000082d9  _DeviceInit                     
+0     00008333  _DeviceInit                     
 1     00006a00  _ECap1Regs                      
 1     00006800  _EPwm1Regs                      
 1     00006840  _EPwm2Regs                      
@@ -400,74 +397,71 @@ page  address   name
 1     00006fc0  _GpioDataRegs                   
 1     00006fe0  _GpioIntRegs                    
 1     00007900  _I2caRegs                       
-0     0000861b  _ISR_ILLEGAL                    
-0     000083cf  _MemCopy                        
-1     000089db  _N                              
+0     000085d5  _ISR_ILLEGAL                    
+0     00008323  _MemCopy                        
+1     000089e1  _N                              
 1     00007060  _NmiIntruptRegs                 
-0     0000835a  _PLLset                         
+0     000082ed  _PLLset                         
 1     003d7fff  _PartIdRegs                     
-0     00008394  _PieCntlInit                    
+0     000082ce  _PieCntlInit                    
 1     00000ce0  _PieCtrlRegs                    
 1     00000d00  _PieVectTable                   
-0     000083b3  _PieVectTableInit               
+0     000082be  _PieVectTableInit               
 1     00007050  _SciaRegs                       
 1     00007040  _SpiaRegs                       
 1     00007010  _SysCtrlRegs                    
 1     00000985  _SysPwrCtrlRegs                 
-0     00008352  _WDogDisable                    
+0     000082b6  _WDogDisable                    
 1     00007070  _XIntruptRegs                   
 1     00000700  __STACK_END                     
 abs   00000300  __STACK_SIZE                    
-1     000089e2  ___TI_cleanup_ptr               
-1     000089e4  ___TI_dtors_ptr                 
-1     000089e0  ___TI_enable_exit_profile_output
+1     000089da  ___TI_cleanup_ptr               
+1     000089dc  ___TI_dtors_ptr                 
+1     000089d8  ___TI_enable_exit_profile_output
 abs   ffffffff  ___TI_pprof_out_hndl            
 abs   ffffffff  ___TI_prof_data_size            
 abs   ffffffff  ___TI_prof_data_start           
-1     000089eb  ___adc_c_temp_offset            
-1     000089ea  ___adc_c_temp_slope             
+1     000089e9  ___adc_c_temp_offset            
+1     000089e8  ___adc_c_temp_slope             
 abs   ffffffff  ___binit__                      
 abs   ffffffff  ___c_args__                     
 0     00000050  ___cinit__                      
-0     00008623  ___etext__                      
+0     000085dd  ___etext__                      
 abs   ffffffff  ___pinit__                      
 1     000089c8  ___servos_c_pwm_max             
 1     000089d0  ___servos_c_pwm_min             
 0     00008000  ___text__                       
-0     00008601  __args_main                     
-1     000089e6  __lock                          
-0     0000861a  __nop                           
-0     00008616  __register_lock                 
-0     00008612  __register_unlock               
+0     000085bb  __args_main                     
+1     000089e4  __lock                          
+0     000085d4  __nop                           
+0     000085d0  __register_lock                 
+0     000085cc  __register_unlock               
 1     00000400  __stack                         
-0     00008622  __system_post_cinit             
-0     00008620  __system_pre_init               
-1     000089e8  __unlock                        
-0     00008555  _abort                          
+0     000085dc  __system_post_cinit             
+0     000085da  __system_pre_init               
+1     000089e6  __unlock                        
+0     00008516  _abort                          
 1     00008900  _adc_in_x                       
-0     00008196  _adc_init                       
-1     000089d8  _adc_out_x                      
-1     000089d9  _adc_out_y                      
-1     000089dd  _adc_result_FIR_N               
-0     0000825b  _adc_sample                     
-0     00008213  _adc_trigger_select             
-0     000084d7  _c_int00                        
-0     000085a3  _copy_in                        
-0     00008557  _exit                           
-1     000089da  _fir_N                          
-1     000089dc  _fir_counter                    
-1     000089df  _input_conv                     
-0     000083e2  _main                           
-0     000085e4  _memcpy                         
-0     0000857e  _moving_average                 
-1     000089de  _servo_degs                     
-0     00008000  _servo_init                     
-0     0000812d  _servo_set                      
-0     000082a3  _temp_sample                    
-0     000082b9  _y_fit                          
+0     0000823b  _adc_init                       
+0     000081f8  _adc_sample                     
+0     000081b6  _adc_trigger_select             
+0     00008498  _c_int00                        
+0     0000853f  _copy_in                        
+0     00008518  _exit                           
+1     000089e0  _fir_N                          
+1     000089e2  _fir_counter                    
+0     000083c0  _main                           
+0     0000859e  _memcpy                         
+0     00008563  _moving_average                 
+1     000089de  _out_x                          
+1     000089df  _out_y                          
+0     0000804c  _servo_init                     
+0     00008000  _servo_set                      
+0     000081a3  _temp_sample                    
+0     0000818e  _y_fit                          
 abs   ffffffff  binit                           
 0     00000050  cinit                           
-0     00008623  etext                           
+0     000085dd  etext                           
 abs   ffffffff  pinit                           
 
 
@@ -479,42 +473,42 @@ page  address   name
 0     00000050  cinit                           
 0     00008000  .text                           
 0     00008000  ___text__                       
-0     00008000  _servo_init                     
-0     0000812d  _servo_set                      
-0     00008196  _adc_init                       
-0     00008213  _adc_trigger_select             
-0     0000825b  _adc_sample                     
-0     000082a3  _temp_sample                    
-0     000082b9  _y_fit                          
-0     000082d9  _DeviceInit                     
-0     00008352  _WDogDisable                    
-0     0000835a  _PLLset                         
-0     00008394  _PieCntlInit                    
-0     000083b3  _PieVectTableInit               
-0     000083cf  _MemCopy                        
-0     000083e2  _main                           
-0     0000847d  FS$$MPY                         
-0     000084d7  _c_int00                        
-0     0000852b  L$$DIV                          
-0     0000853a  L$$MOD                          
-0     00008548  UL$$DIV                         
-0     0000854f  UL$$MOD                         
-0     00008555  C$$EXIT                         
-0     00008555  _abort                          
-0     00008557  _exit                           
-0     0000857e  _moving_average                 
-0     000085a3  _copy_in                        
-0     000085c7  FS$$TOU                         
-0     000085e4  _memcpy                         
-0     00008601  __args_main                     
-0     00008612  __register_unlock               
-0     00008616  __register_lock                 
-0     0000861a  __nop                           
-0     0000861b  _ISR_ILLEGAL                    
-0     00008620  __system_pre_init               
-0     00008622  __system_post_cinit             
-0     00008623  ___etext__                      
-0     00008623  etext                           
+0     00008000  _servo_set                      
+0     0000804c  _servo_init                     
+0     0000818e  _y_fit                          
+0     000081a3  _temp_sample                    
+0     000081b6  _adc_trigger_select             
+0     000081f8  _adc_sample                     
+0     0000823b  _adc_init                       
+0     000082b6  _WDogDisable                    
+0     000082be  _PieVectTableInit               
+0     000082ce  _PieCntlInit                    
+0     000082ed  _PLLset                         
+0     00008323  _MemCopy                        
+0     00008333  _DeviceInit                     
+0     000083c0  _main                           
+0     0000843e  FS$$MPY                         
+0     00008498  _c_int00                        
+0     000084ec  L$$DIV                          
+0     000084fb  L$$MOD                          
+0     00008509  UL$$DIV                         
+0     00008510  UL$$MOD                         
+0     00008516  C$$EXIT                         
+0     00008516  _abort                          
+0     00008518  _exit                           
+0     0000853f  _copy_in                        
+0     00008563  _moving_average                 
+0     00008581  FS$$TOU                         
+0     0000859e  _memcpy                         
+0     000085bb  __args_main                     
+0     000085cc  __register_unlock               
+0     000085d0  __register_lock                 
+0     000085d4  __nop                           
+0     000085d5  _ISR_ILLEGAL                    
+0     000085da  __system_pre_init               
+0     000085dc  __system_post_cinit             
+0     000085dd  ___etext__                      
+0     000085dd  etext                           
 1     00000400  __stack                         
 1     00000700  __STACK_END                     
 1     00000880  _DevEmuRegs                     
@@ -551,21 +545,18 @@ page  address   name
 1     00008900  _adc_in_x                       
 1     000089c8  ___servos_c_pwm_max             
 1     000089d0  ___servos_c_pwm_min             
-1     000089d8  _adc_out_x                      
-1     000089d9  _adc_out_y                      
-1     000089da  _fir_N                          
-1     000089db  _N                              
-1     000089dc  _fir_counter                    
-1     000089dd  _adc_result_FIR_N               
-1     000089de  _servo_degs                     
-1     000089df  _input_conv                     
-1     000089e0  ___TI_enable_exit_profile_output
-1     000089e2  ___TI_cleanup_ptr               
-1     000089e4  ___TI_dtors_ptr                 
-1     000089e6  __lock                          
-1     000089e8  __unlock                        
-1     000089ea  ___adc_c_temp_slope             
-1     000089eb  ___adc_c_temp_offset            
+1     000089d8  ___TI_enable_exit_profile_output
+1     000089da  ___TI_cleanup_ptr               
+1     000089dc  ___TI_dtors_ptr                 
+1     000089de  _out_x                          
+1     000089df  _out_y                          
+1     000089e0  _fir_N                          
+1     000089e1  _N                              
+1     000089e2  _fir_counter                    
+1     000089e4  __lock                          
+1     000089e6  __unlock                        
+1     000089e8  ___adc_c_temp_slope             
+1     000089e9  ___adc_c_temp_offset            
 1     003d7fff  _PartIdRegs                     
 1     003f7ff8  _CsmPwl                         
 abs   00000300  __STACK_SIZE                    
@@ -578,4 +569,4 @@ abs   ffffffff  ___pinit__
 abs   ffffffff  binit                           
 abs   ffffffff  pinit                           
 
-[102 symbols]
+[99 symbols]

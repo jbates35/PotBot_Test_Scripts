@@ -11,7 +11,13 @@
 #ifndef DSP_H_
 #define DSP_H_
 
+#define N_MIN 10  //Min number of h[n] terms
+#define N_MAX 100 //Max number of h[n] terms
+
 #include "Peripheral_Headers/F2802x_device.h"
+
+//Stuff for input arrays
+#define FIR_INPUT_SIZE 100 // Size of input array
 
 //****** moving_average ********//
 //
