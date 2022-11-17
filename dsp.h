@@ -34,5 +34,19 @@
 //**************************//
 void moving_average(int16_t *out, int16_t *in, int16_t N, int16_t start);
 
+//********** ikine **********//
+//
+// calculates inverse kinematics going from x and y parameters to joint1 and joint2 servos
+//
+// Arguments:
+// int16_t *joint1 - servo 1 value (output)
+// int16_t *joint2 - servo 2 value (output)
+// int16_t x - position x (input)
+// int16_t y - position y (input)
+//
+// Return : None
+//
+//**************************//
+void ikine(int16_t *joint1, int16_t *joint2, int16_t x, int16_t y);
 
 #endif /* DSP_H_ */

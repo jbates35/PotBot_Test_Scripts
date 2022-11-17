@@ -28,9 +28,12 @@ fir_counter = FIR_INPUT_SIZE-1;
 //For testing adc
 int16_t adc_result_FIR_N;
 int16_t servo_degs;
+char char_test[13];
 
 int main(void)
 {
+    int i;
+    for(i=0; i<13;i++) char_test[i] = '\0';
 
     DeviceInit();
 
@@ -46,9 +49,11 @@ int main(void)
     adc_init(3,true); //Initialize 3 ADC channels, and turn temperature sensor on
     //adc_trigger_select(0, TRIGGER_EPWM1A);
 
+    uart_init();
 
     //Stuff for servo
     //int16_t servo_degs = 0;
+
 
     int32_t temperature;
 
@@ -57,6 +62,7 @@ int main(void)
             CpuTimer1Regs.TCR.bit.TIF=1;
             temperature = temp_sample(true); // Sample temperature, start conversion
 
+
             //Get N value
             //adc_read0 = adc_sample(0, true); //Start soc and sample
             //y_fit(&fir_N, &adc_read0, 0,4095, 1,100); // Change 0-4095->1-100
@@ -64,6 +70,11 @@ int main(void)
         }
         if(CpuTimer0Regs.TCR.bit.TIF==1) {
             CpuTimer0Regs.TCR.bit.TIF=1;
+
+
+            //Uart test script
+            //uart_tx_str("testing123 ");
+            uart_rx(&char_test);
 
             //Example of a adc sample where soc isn't needed (such as when there's a trigger set)
             //adc_read1 = adc_sample(0, false); //Sample ADCRESULT0, start conversion

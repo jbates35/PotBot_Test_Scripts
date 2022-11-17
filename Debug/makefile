@@ -15,6 +15,7 @@ ORDERED_OBJS += \
 "./dsp.obj" \
 "./main.obj" \
 "./servo.obj" \
+"./uart.obj" \
 "./Peripheral_Headers/F2802x_GlobalVariableDefs.obj" \
 "../28027_RAM_lnk.cmd" \
 "../F2802x_Headers_nonBIOS.cmd" \
@@ -162,8 +163,8 @@ M_PotBot_test_scripts.hex: $(EXE_OUTPUTS)
 # Other Targets
 clean:
 	-$(RM) $(BIN_OUTPUTS__QUOTED)$(EXE_OUTPUTS__QUOTED)
-	-$(RM) "DevInit.obj" "adc.obj" "dsp.obj" "main.obj" "servo.obj" "Peripheral_Headers\F2802x_GlobalVariableDefs.obj" 
-	-$(RM) "DevInit.d" "adc.d" "dsp.d" "main.d" "servo.d" "Peripheral_Headers\F2802x_GlobalVariableDefs.d" 
+	-$(RM) "DevInit.obj" "adc.obj" "dsp.obj" "main.obj" "servo.obj" "uart.obj" "Peripheral_Headers\F2802x_GlobalVariableDefs.obj" 
+	-$(RM) "DevInit.d" "adc.d" "dsp.d" "main.d" "servo.d" "uart.d" "Peripheral_Headers\F2802x_GlobalVariableDefs.d" 
 	-@echo 'Finished clean'
 	-@echo ' '
 

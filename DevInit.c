@@ -92,6 +92,7 @@ void DeviceInit(void)
 
 // LOW SPEED CLOCKS prescale register settings
    //SysCtrlRegs.LOSPCP.all = 0x0002;		// Sysclk / 4 (15 MHz)
+   //SysCtrlRegs.LOSPCP.bit.LSPCLK = 0; // Sysclk
    //SysCtrlRegs.XCLK.bit.XCLKOUTDIV=2;
       	
 // PERIPHERAL CLOCK ENABLES 
@@ -111,7 +112,7 @@ void DeviceInit(void)
    //------------------------------------------------
    SysCtrlRegs.PCLKCR0.bit.SPIAENCLK = 0;	// SPI-A
    //------------------------------------------------
-   SysCtrlRegs.PCLKCR0.bit.SCIAENCLK = 1;  	// SCI-A
+   //SysCtrlRegs.PCLKCR0.bit.SCIAENCLK = 1;  	// SCI-A
    //------------------------------------------------
    SysCtrlRegs.PCLKCR1.bit.ECAP1ENCLK = 0;	//eCAP1
 //   //------------------------------------------------
@@ -253,13 +254,13 @@ void DeviceInit(void)
 //  GPIO-20 - GPIO-27 Do Not Exist
 //--------------------------------------------------------------------------------------
 //  GPIO-28 - PIN FUNCTION = --Spare--
-	GpioCtrlRegs.GPAMUX2.bit.GPIO28 = 1;	// 0=GPIO,  1=SCIRX-A,  2=I2C-SDA,  3=TZ2
+//	GpioCtrlRegs.GPAMUX2.bit.GPIO28 = 1;	// 0=GPIO,  1=SCIRX-A,  2=I2C-SDA,  3=TZ2
 //	GpioCtrlRegs.GPADIR.bit.GPIO28 = 0;		// 1=OUTput,  0=INput 
 //	GpioDataRegs.GPACLEAR.bit.GPIO28 = 1;	// uncomment if --> Set Low initially
 //	GpioDataRegs.GPASET.bit.GPIO28 = 1;		// uncomment if --> Set High initially
 //--------------------------------------------------------------------------------------
 //  GPIO-29 - PIN FUNCTION = --Spare--
-	GpioCtrlRegs.GPAMUX2.bit.GPIO29 = 1;	// 0=GPIO,  1=SCITXD-A,  2=I2C-SCL,  3=TZ3
+//	GpioCtrlRegs.GPAMUX2.bit.GPIO29 = 1;	// 0=GPIO,  1=SCITXD-A,  2=I2C-SCL,  3=TZ3
 //	GpioCtrlRegs.GPADIR.bit.GPIO29 = 0;		// 1=OUTput,  0=INput 
 //	GpioDataRegs.GPACLEAR.bit.GPIO29 = 1;	// uncomment if --> Set Low initially
 //	GpioDataRegs.GPASET.bit.GPIO29 = 1;		// uncomment if --> Set High initially
