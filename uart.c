@@ -12,7 +12,6 @@
  */
 
 #include "uart.h"
-
 //****** uart_init ********//
 //
 // Initializes all regs needed for uart
@@ -26,7 +25,6 @@ void uart_init(void) {
     EALLOW;
 
     SysCtrlRegs.PCLKCR0.bit.SCIAENCLK = 1;  // Enable SCI Clock
-
     SysCtrlRegs.LOSPCP.bit.LSPCLK = 0x02; // Sysclk (MIGHT NEED TO BE REMOVED IN RTOS VERSION)
 
     //UART RX
@@ -38,25 +36,22 @@ void uart_init(void) {
     GpioCtrlRegs.GPAPUD.bit.GPIO29 = 1;     // Disable Pull-up for GPIO29
     GpioCtrlRegs.GPAMUX2.bit.GPIO29 = 1;    // Enable UART TX
 
-    //Enable FIFO
-    SciaRegs.SCIFFTX.all=0xE040;
-    SciaRegs.SCIFFRX.all=0x2044; // Note- has highest interrupt level
-    SciaRegs.SCIFFCT.all=0x0; // This just means turn auto-detect baud off
-
-
+    SciaRegs.SCIFFTX.bit.SCIFFENA = 0;  //Disable FIFO
     SciaRegs.SCICCR.all =0x0007;    //No parity bit, 1 stop bit
 
-    //Set baud rate of 115200bps
-    /******** IMPORTANT *************/
-    // (with low speed clock at 15MHZ)
+
+    //Set baud rate of 115200bps (with low clock speed of 15MHz)
     SciaRegs.SCIHBAUD = 0; // Not needed
     SciaRegs.SCILBAUD = 0x000F; // BRR = LSPCLK/(Baud*8) - 1
 
-    SciaRegs.SCICTL1.all =0x0023;  // Relinquish SCI from Reset
+    SciaRegs.SCICTL2.bit.RXBKINTENA = 1; // Enable SCI interrupt
+
+    SciaRegs.SCICTL1.bit.TXENA = 1; // Enable TX
+    SciaRegs.SCICTL1.bit.RXENA = 1; // Enable RX
+    SciaRegs.SCICTL1.bit.SWRESET = 1; // Reset SCI
 
     EDIS;
     //END UART SETUP
-
 }
 
 //****** uart_tx_char ********//
@@ -71,7 +66,8 @@ void uart_init(void) {
 //**************************//
 void uart_tx_char(char input) {
     //Wait until other characters have been sent
-    while (SciaRegs.SCIFFTX.bit.TXFFST != 0)   {}
+    //while (SciaRegs.SCIFFTX.bit.TXFFST != 0)   {}
+    while(SciaRegs.SCICTL2.bit.TXRDY == 0) { }
     SciaRegs.SCITXBUF=(uint16_t)input;
 }
 
@@ -96,27 +92,60 @@ void uart_tx_str(char *input) {
 // Receive uart rx buffer and dump result into variable
 //
 // Arguments:
-// char *buffer - variable to dump the rx buffer into
-//
+// char *buffer_string - string to put buffer into
+// int *buff_i - index of the buffer string
+// bool_t *ready - associate this with the flag, string is ready to be parsed
 // Return : None
 //
 //**************************//
-void uart_rx(char *buffer) {
+void uart_rx(char *input_string, int *buff_i, int *ready) {
 
-    //create index
-    int i = 0;
-    char temp_buf[13];
+    //UART INTERRUPT ROUTINE
+    if(SciaRegs.SCIRXST.bit.RXRDY==1)
+    {
+        uint16_t buffer_int; //for dumping whole word into
+        char buffer; // just the char part
 
-    if(SciaRegs.SCIFFRX.bit.RXFFST==1)
-        *buffer = "";
+        //Dump result into buffer, parse into string
+        buffer_int = SciaRegs.SCIRXBUF.all;
+        buffer = (char) buffer_int;
 
-    while(SciaRegs.SCIFFRX.bit.RXFFST==1 || i<13) {
-        temp_buf[i] = SciaRegs.SCIRXBUF.all;
-        i++;
+        //Dereference variables so they can be worked on
+        int local_index = *buff_i;
+        char buffer_string[] = *input_string;
+
+        //Ensure buffer string ready starts at 0
+        *ready = 0;
+
+        //Make decision of indexing based on character
+        if(buffer=='<') {
+            //Restart buffer index
+            *buff_i=0;
+
+            //Clear string
+            int j;
+            for(j=0; j<UART_BUFF_SIZE; j++) buffer_string[j]=NULL;
+
+        } else if(buffer=='>') {
+            //End of uart buffer, put eol
+            buffer_string[local_index]='\0';
+
+            //Signal flag that string can be dumped and processed
+            *ready=1;
+            *buff_i=0;
+        } else {
+            //dump buffer in appropriate spot in buffer string
+            buffer_string[local_index] = buffer;
+
+            //increment the index for next character
+            *buff_i = local_index+1;
+        }
+
+        *input_string = buffer_string;
     }
-
-    if(*buffer="") *buffer=temp_buf;
 }
+
+
 
 //****** uart_rx ********//
 //
@@ -131,5 +160,5 @@ void uart_rx(char *buffer) {
 // Return : None
 //
 //**************************//
-void parse_rx(char *buffer, int16_t *x, int16_t *y, bool_t *z) {
+void parse_rx(char string[14], int16_t *x, int16_t *y, bool_t *z) {
 }

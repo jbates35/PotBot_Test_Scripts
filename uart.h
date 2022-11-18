@@ -20,6 +20,9 @@
 #ifndef UART_H_
 #define UART_H_
 
+#define RX_READY '1' //Ready for next transmission
+#define UART_BUFF_SIZE 14 // Length of uart character array
+
 #include "Peripheral_Headers/F2802x_device.h"
 
 //****** uart_init ********//
@@ -60,12 +63,13 @@ void uart_tx_str(char *input);
 // Receive uart rx buffer and dump result into variable
 //
 // Arguments:
-// char *buffer - variable to dump the rx buffer into
-//
+// char *buffer_string - string to put buffer into
+// int *buff_i - index of the buffer string
+// bool_t *ready - associate this with the flag, string is ready to be parsed
 // Return : None
 //
 //**************************//
-void uart_rx(char *buffer);
+void uart_rx(char *input_string, int *buff_i, int *ready);
 
 //****** uart_rx ********//
 //

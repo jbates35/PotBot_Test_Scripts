@@ -36,6 +36,7 @@ main.obj: ../F2807x_EPwm_defines.h
 main.obj: ../servo.h
 main.obj: ../adc.h
 main.obj: ../dsp.h
+main.obj: ../uart.h
 
 ../main.c:
 
@@ -108,4 +109,6 @@ C:/ti/ccs1040/ccs/tools/compiler/ti-cgt-c2000_20.2.5.LTS/include/sys/_stdint.h:
 ../adc.h:
 
 ../dsp.h:
+
+../uart.h:
 

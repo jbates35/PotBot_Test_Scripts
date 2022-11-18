@@ -4,6 +4,7 @@
 #include "servo.h"
 #include "adc.h"
 #include "dsp.h"
+#include "uart.h"
 
 /**
  * main.c
@@ -28,13 +29,15 @@ fir_counter = FIR_INPUT_SIZE-1;
 //For testing adc
 int16_t adc_result_FIR_N;
 int16_t servo_degs;
-char char_test[13];
+
+//Stuff for UART module
+char completed_string[UART_BUFF_SIZE]; //
+char buffer_string[UART_BUFF_SIZE]; // puts uart rx into a string form
+int buffer_index; // keeps track of parsed string position
+int buffer_string_ready;
 
 int main(void)
 {
-    int i;
-    for(i=0; i<13;i++) char_test[i] = '\0';
-
     DeviceInit();
 
     CpuTimer0Regs.PRD.all = mSec1 * 20;
@@ -55,32 +58,108 @@ int main(void)
     //int16_t servo_degs = 0;
 
 
+    int j;
+    for (j = 0; j<UART_BUFF_SIZE; j++) buffer_string[j] = NULL;
+
     int32_t temperature;
 
+    buffer_index=0;
+
     while(1) {
-        if(CpuTimer1Regs.TCR.bit.TIF==1) {
-            CpuTimer1Regs.TCR.bit.TIF=1;
-            temperature = temp_sample(true); // Sample temperature, start conversion
+
+/*
+        //UART INTERRUPT ROUTINE
+        if(SciaRegs.SCIRXST.bit.RXRDY==1)
+        {
+
+            uint16_t buffer_int; //for dumping whole word into
+            char buffer; // just the char part
+
+            //Dump result into buffer, parse into string
+            buffer_int = SciaRegs.SCIRXBUF.all;
+            buffer = (char) buffer_int;
+
+            //Ensure buffer string ready starts at 0
+            buffer_string_ready = 0;
+
+            //Make decision of indexing based on character
+            if(buffer=='<') {
+                //Restart buffer index
+                buffer_index=0;
+
+                //Clear string
+                int i;
+                for(i=0; i<UART_BUFF_SIZE; i++) buffer_string[i]=NULL;
 
 
-            //Get N value
-            //adc_read0 = adc_sample(0, true); //Start soc and sample
-            //y_fit(&fir_N, &adc_read0, 0,4095, 1,100); // Change 0-4095->1-100
+            } else if(buffer=='>') {
+                //End of uart buffer, put eol
+                buffer_string[buffer_index]='\0';
+
+                //Signal flag that string can be dumped and processed
+                buffer_string_ready=1;
+            } else {
+                //dump buffer in appropriate spot in buffer string
+                buffer_string[buffer_index] = buffer;
+
+                //increment the index for next character
+                buffer_index++;
+            }
+        } */
+
+        uart_rx(&buffer_string, &buffer_index, &buffer_string_ready);
+
+        //If flag ready, dump buffer_string into character string
+        if(buffer_string_ready==1) {
+            int i;
+            for(i=0; i<UART_BUFF_SIZE; i++) completed_string[i] = buffer_string[i];
+            buffer_string_ready=0;
+        }
+
+        //END UART ISR
+
+
+/*
+
+
+
+            //If buffer string is completed, dump string and turn off flag
+            if(buffer_string_ready == 1) {
+
+                //Dumping string
+
+
+                //Clear flag
+                buffer_string_ready = 0;
+
+                //Call post for parsing string
+                //FOR RTOS
+            }
+
+            //Send acknowledgement
+            uart_tx_char(RX_READY);
 
         }
+*/
         if(CpuTimer0Regs.TCR.bit.TIF==1) {
             CpuTimer0Regs.TCR.bit.TIF=1;
 
 
+
             //Uart test script
             //uart_tx_str("testing123 ");
-            uart_rx(&char_test);
+            //uart_rx(&char_test);
+            //uart_tx_char('t');
+
 
             //Example of a adc sample where soc isn't needed (such as when there's a trigger set)
             //adc_read1 = adc_sample(0, false); //Sample ADCRESULT0, start conversion
 
             //Example of a adc sample where soc is needed (such as when there's no trigger set)
             //adc_read1 = adc_sample(0, true); //Sample ADCRESULT0, start conversion
+
+/*
+
 
             //Start input array
             adc_in_x[fir_counter] = adc_sample(1, true); //Sample ADCRESULT0, start conversion
@@ -109,6 +188,8 @@ int main(void)
             adc_result_FIR_N = adc_sample(0, true); //Start soc and sample
             y_fit(&adc_result_FIR_N, &fir_N, ADC_MIN, ADC_MAX, N_MIN, N_MAX); // Change 0-4095->10-100
 
+
+ */
         }
     }
 	return 0;
