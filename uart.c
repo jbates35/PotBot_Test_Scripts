@@ -44,9 +44,12 @@ void uart_init(void) {
     GpioCtrlRegs.GPAPUD.bit.GPIO29 = 1;     // Disable Pull-up for GPIO29
     GpioCtrlRegs.GPAMUX2.bit.GPIO29 = 1;    // Enable UART TX
 
-    SciaRegs.SCIFFTX.bit.SCIFFENA = 0;  //Disable FIFO
-    SciaRegs.SCICCR.all =0x0007;    //No parity bit, 1 stop bit
+    //Enable FIFO
+    SciaRegs.SCIFFTX.all=0xE040;
+    SciaRegs.SCIFFRX.all=0x2041; // Interrupt enable, flags after 3 bits are in fifo 0010 0000 0100 0100
+    SciaRegs.SCIFFCT.all=0x0;
 
+    SciaRegs.SCICCR.all =0x0007;    //No parity bit, 1 stop bit
 
     //Set baud rate of 115200bps (with low clock speed of 15MHz)
     SciaRegs.SCIHBAUD = 0; // Not needed
@@ -109,39 +112,44 @@ void uart_tx_str(char *input) {
 void uart_rx(char **input_string, int *ready) {
 
     //UART INTERRUPT ROUTINE
-    if(SciaRegs.SCIRXST.bit.RXRDY==1) {
+    //UART INTERRUPT ROUTINE
+    if(SciaRegs.SCIFFRX.bit.RXFFINT==1)
+    {
+        SciaRegs.SCIFFRX.bit.RXFFINTCLR = 1; // Clear int flag for fifo
         strcpy(__uart_c_buffer_string, input_string);
 
-        //Dump result into buffer, parse into string
-        uint16_t buffer_int = SciaRegs.SCIRXBUF.all; //for dumping whole word into
-        char buffer = (char) buffer_int; // just the char part
+        while(SciaRegs.SCIFFRX.bit.RXFFST != 0) {
 
-        //Ensure buffer string ready starts at 0
-        *ready = 0;
+            //Dump result into buffer, parse into string
+            uint16_t buffer_int = SciaRegs.SCIRXBUF.all; //for dumping whole word into
+            char buffer = (char) buffer_int; // just the char part
 
-        //Make decision of indexing based on character
-        if(buffer=='<') {
-            //Restart buffer index
-            __uart_c_buffer_index=0;
+            //Ensure buffer string ready starts at 0
+            *ready = 0;
 
-            //Clear string
-            int j;
-            for(j=0; j<UART_BUFF_SIZE; j++) __uart_c_buffer_string[j]=NULL;
+            //Make decision of indexing based on character
+            if(buffer=='<') {
+                //Restart buffer index
+                __uart_c_buffer_index=0;
 
-        } else if(buffer=='>') {
-            //End of uart buffer, put eol
-            __uart_c_buffer_string[__uart_c_buffer_index]='\0';
+                //Clear string
+                int j;
+                for(j=0; j<UART_BUFF_SIZE; j++) __uart_c_buffer_string[j]=NULL;
 
-            //Signal flag that string can be dumped and processed
-            *ready=1;
-        } else {
-            //dump buffer in appropriate spot in buffer string
-            __uart_c_buffer_string[__uart_c_buffer_index] = (char) buffer;
+            } else if(buffer=='>') {
+                //End of uart buffer, put eol
+                __uart_c_buffer_string[__uart_c_buffer_index]='\0';
 
-            //increment the index for next character
-            __uart_c_buffer_index++;
+                //Signal flag that string can be dumped and processed
+                *ready=1;
+            } else {
+                //dump buffer in appropriate spot in buffer string
+                __uart_c_buffer_string[__uart_c_buffer_index] = (char) buffer;
+
+                //increment the index for next character
+                __uart_c_buffer_index++;
+            }
         }
-
         strcpy(input_string, __uart_c_buffer_string);
     }
 }
@@ -156,10 +164,10 @@ void uart_rx(char **input_string, int *ready) {
 // char *buffer - variable to dump the rx buffer into
 // int16_t *x - pointer of x position
 // int16_t *y - pointer of y position
-// bool_t *z - pointer of z state (true or false)
+// uint16_t *z - pointer of z state (true or false)
 //
 // Return : None
 //
 //**************************//
-void parse_rx(char string[14], int16_t *x, int16_t *y, bool_t *z) {
+void parse_rx(char string[14], int16_t *x, int16_t *y, uint16_t *z) {
 }

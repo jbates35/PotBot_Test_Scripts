@@ -63,89 +63,41 @@ int main(void)
 
     int32_t temperature;
 
-    buffer_index=0;
+
+    buffer_index = 0;
+    buffer_string_ready = 0;
 
     while(1) {
-/*
-        //UART INTERRUPT ROUTINE
-        if(SciaRegs.SCIRXST.bit.RXRDY==1)
-        {
 
-            uint16_t buffer_int; //for dumping whole word into
-            char buffer; // just the char part
-
-            //Dump result into buffer, parse into string
-            buffer_int = SciaRegs.SCIRXBUF.all;
-            buffer = (char) buffer_int;
-
-            //Ensure buffer string ready starts at 0
-            buffer_string_ready = 0;
-
-            //Make decision of indexing based on character
-            if(buffer=='<') {
-                //Restart buffer index
-                buffer_index=0;
-
-                //Clear string
-                int i;
-                for(i=0; i<UART_BUFF_SIZE; i++) buffer_string[i]=NULL;
-
-
-            } else if(buffer=='>') {
-                //End of uart buffer, put eol
-                buffer_string[buffer_index]='\0';
-
-                //Signal flag that string can be dumped and processed
-                buffer_string_ready=1;
-            } else {
-                //dump buffer in appropriate spot in buffer string
-                buffer_string[buffer_index] = buffer;
-
-                //increment the index for next character
-                buffer_index++;
-            }
-        }
-
-        */
-
+        //ISR Function below
         uart_rx(&buffer_string, &buffer_string_ready);
 
         //If flag ready, dump buffer_string into character string
         if(buffer_string_ready==1) {
-            int i;
-            for(i=0; i<UART_BUFF_SIZE; i++) completed_string[i] = (char) buffer_string[i];
+
+            //Get rid of ready flag
             buffer_string_ready=0;
 
+            //Dump into completed string to be parsed
+            strcpy(completed_string, buffer_string);
+
+            //Reset SCI
             EALLOW;
             SciaRegs.SCICTL1.bit.SWRESET=1; // Reset SCI
             EDIS;
+
+            //Post for parsing
         }
 
         //END UART ISR
 
+        if(CpuTimer1Regs.TCR.bit.TIF==1) {
+            CpuTimer1Regs.TCR.bit.TIF=1;
 
-/*
-
-
-
-            //If buffer string is completed, dump string and turn off flag
-            if(buffer_string_ready == 1) {
-
-                //Dumping string
-
-
-                //Clear flag
-                buffer_string_ready = 0;
-
-                //Call post for parsing string
-                //FOR RTOS
-            }
-
-            //Send acknowledgement
-            uart_tx_char(RX_READY);
-
+            uart_tx_char('r');
         }
-*/
+
+
         if(CpuTimer0Regs.TCR.bit.TIF==1) {
             CpuTimer0Regs.TCR.bit.TIF=1;
 

@@ -80,11 +80,11 @@ void uart_rx(char **input_string, int *ready);
 // char *buffer - variable to dump the rx buffer into
 // int16_t *x - pointer of x position
 // int16_t *y - pointer of y position
-// bool_t *z - pointer of z state (true or false)
+// uint16_t *z - pointer of z state (true or false)
 //
 // Return : None
 //
 //**************************//
-void parse_rx(char *buffer, int16_t *x, int16_t *y, bool_t *z);
+void parse_rx(char string[14], int16_t *x, int16_t *y, uint16_t *z);
 
 #endif /* UART_H_ */
