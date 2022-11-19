@@ -37,6 +37,8 @@ main.obj: ../servo.h
 main.obj: ../adc.h
 main.obj: ../dsp.h
 main.obj: ../uart.h
+main.obj: C:/ti/ccs1040/ccs/tools/compiler/ti-cgt-c2000_20.2.5.LTS/include/string.h
+main.obj: C:/ti/ccs1040/ccs/tools/compiler/ti-cgt-c2000_20.2.5.LTS/include/xlocale/_string.h
 
 ../main.c:
 
@@ -111,4 +113,8 @@ C:/ti/ccs1040/ccs/tools/compiler/ti-cgt-c2000_20.2.5.LTS/include/sys/_stdint.h:
 ../dsp.h:
 
 ../uart.h:
+
+C:/ti/ccs1040/ccs/tools/compiler/ti-cgt-c2000_20.2.5.LTS/include/string.h:
+
+C:/ti/ccs1040/ccs/tools/compiler/ti-cgt-c2000_20.2.5.LTS/include/xlocale/_string.h:
 

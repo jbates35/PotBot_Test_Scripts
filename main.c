@@ -66,7 +66,6 @@ int main(void)
     buffer_index=0;
 
     while(1) {
-
 /*
         //UART INTERRUPT ROUTINE
         if(SciaRegs.SCIRXST.bit.RXRDY==1)
@@ -105,15 +104,21 @@ int main(void)
                 //increment the index for next character
                 buffer_index++;
             }
-        } */
+        }
 
-        uart_rx(&buffer_string, &buffer_index, &buffer_string_ready);
+        */
+
+        uart_rx(&buffer_string, &buffer_string_ready);
 
         //If flag ready, dump buffer_string into character string
         if(buffer_string_ready==1) {
             int i;
-            for(i=0; i<UART_BUFF_SIZE; i++) completed_string[i] = buffer_string[i];
+            for(i=0; i<UART_BUFF_SIZE; i++) completed_string[i] = (char) buffer_string[i];
             buffer_string_ready=0;
+
+            EALLOW;
+            SciaRegs.SCICTL1.bit.SWRESET=1; // Reset SCI
+            EDIS;
         }
 
         //END UART ISR
@@ -143,14 +148,6 @@ int main(void)
 */
         if(CpuTimer0Regs.TCR.bit.TIF==1) {
             CpuTimer0Regs.TCR.bit.TIF=1;
-
-
-
-            //Uart test script
-            //uart_tx_str("testing123 ");
-            //uart_rx(&char_test);
-            //uart_tx_char('t');
-
 
             //Example of a adc sample where soc isn't needed (such as when there's a trigger set)
             //adc_read1 = adc_sample(0, false); //Sample ADCRESULT0, start conversion
