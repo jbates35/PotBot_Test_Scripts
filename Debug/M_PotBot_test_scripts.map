@@ -1,10 +1,10 @@
 ******************************************************************************
              TMS320C2000 Linker PC v20.2.5                     
 ******************************************************************************
->> Linked Fri Nov 18 18:06:09 2022
+>> Linked Sat Nov 19 17:27:39 2022
 
 OUTPUT FILE NAME:   <M_PotBot_test_scripts.out>
-ENTRY POINT SYMBOL: "_c_int00"  address: 00008544
+ENTRY POINT SYMBOL: "_c_int00"  address: 0000860a
 
 
 MEMORY CONFIGURATION
@@ -14,7 +14,7 @@ MEMORY CONFIGURATION
 PAGE 0:
   BEGIN                 00000000   00000002  00000000  00000002  RWIX
   RAMM0                 00000050   000003b0  0000002a  00000386  RWIX
-  PRAML0                00008000   00000900  00000670  00000290  RWIX
+  PRAML0                00008000   00000900  00000736  000001ca  RWIX
   IQTABLES              003fe000   00000b50  00000000  00000b50  RWIX
   IQTABLES2             003feb50   0000008c  00000000  0000008c  RWIX
   IQTABLES3             003febdc   000000aa  00000000  000000aa  RWIX
@@ -51,7 +51,7 @@ PAGE 1:
   XINTRUPT              00007070   00000010  00000010  00000000  RWIX
   ADC                   00007100   00000080  00000051  0000002f  RWIX
   I2CA                  00007900   00000040  00000022  0000001e  RWIX
-  DRAML0                00008900   00000700  00000071  0000068f  RWIX
+  DRAML0                00008900   00000700  00000077  00000689  RWIX
   PARTID                003d7fff   00000001  00000001  00000000  RWIX
   CSM_PWL               003f7ff8   00000008  00000008  00000000  RWIX
 
@@ -68,25 +68,25 @@ section   page    origin      length       input sections
                   00000073    00000005                    : _lock.c.obj (.cinit:__unlock)
                   00000078    00000002     --HOLE-- [fill = 0]
 
-.text      0    00008000    00000670     
-                  00008000    00000196     servo.obj (.text)
-                  00008196    00000143     adc.obj (.text)
-                  000082d9    000000fd     DevInit.obj (.text)
-                  000083d6    000000a6     uart.obj (.text)
-                  0000847c    0000006e     main.obj (.text)
-                  000084ea    0000005a     rts2800_ml.lib : fs_mpy28.asm.obj (.text)
-                  00008544    00000054                    : boot28.asm.obj (.text)
-                  00008598    0000002a                    : l_div28.asm.obj (.text)
-                  000085c2    00000029                    : exit.c.obj (.text)
-                  000085eb    00000024                    : cpy_tbl.c.obj (.text)
-                  0000860f    0000001d                    : fs_tou28.asm.obj (.text)
-                  0000862c    0000001d                    : memcpy.c.obj (.text)
-                  00008649    00000011                    : args_main.c.obj (.text)
-                  0000865a    00000009                    : _lock.c.obj (.text)
-                  00008663    00000005     DevInit.obj (.text:retain)
-                  00008668    00000005     rts2800_ml.lib : strcpy.c.obj (.text)
-                  0000866d    00000002                    : pre_init.c.obj (.text)
-                  0000866f    00000001                    : startup.c.obj (.text)
+.text      0    00008000    00000736     
+                  00008000    000001c7     servo.obj (.text)
+                  000081c7    00000143     adc.obj (.text)
+                  0000830a    00000126     uart.obj (.text)
+                  00008430    000000f1     DevInit.obj (.text)
+                  00008521    0000008f     main.obj (.text)
+                  000085b0    0000005a     rts2800_ml.lib : fs_mpy28.asm.obj (.text)
+                  0000860a    00000054                    : boot28.asm.obj (.text)
+                  0000865e    0000002a                    : l_div28.asm.obj (.text)
+                  00008688    00000029                    : exit.c.obj (.text)
+                  000086b1    00000024                    : cpy_tbl.c.obj (.text)
+                  000086d5    0000001d                    : fs_tou28.asm.obj (.text)
+                  000086f2    0000001d                    : memcpy.c.obj (.text)
+                  0000870f    00000011                    : args_main.c.obj (.text)
+                  00008720    00000009                    : _lock.c.obj (.text)
+                  00008729    00000005     DevInit.obj (.text:retain)
+                  0000872e    00000005     rts2800_ml.lib : strcpy.c.obj (.text)
+                  00008733    00000002                    : pre_init.c.obj (.text)
+                  00008735    00000001                    : startup.c.obj (.text)
 
 .pinit     0    00000050    00000000     UNINITIALIZED
 
@@ -96,23 +96,23 @@ section   page    origin      length       input sections
 .stack     1    00000400    00000300     UNINITIALIZED
                   00000400    00000300     --HOLE--
 
-.ebss      1    00008900    00000051     UNINITIALIZED
+.ebss      1    00008900    00000053     UNINITIALIZED
                   00008900    0000000e     uart.obj (.ebss:___uart_c_buffer_string)
                   0000890e    0000000e     main.obj (.ebss:_buffer_string)
                   0000891c    0000000e     main.obj (.ebss:_completed_string)
-                  0000892a    00000009     main.obj (.ebss)
-                  00008933    00000008     servo.obj (.ebss:___servos_c_pwm_max)
-                  0000893b    00000001     servo.obj (.ebss)
-                  0000893c    00000002     rts2800_ml.lib : _lock.c.obj (.ebss:__lock)
-                  0000893e    00000002                    : _lock.c.obj (.ebss:__unlock)
+                  0000892a    0000000c     main.obj (.ebss)
+                  00008936    00000008     servo.obj (.ebss:___servos_c_pwm_max)
+                  0000893e    00000002     rts2800_ml.lib : _lock.c.obj (.ebss:__lock)
                   00008940    00000008     servo.obj (.ebss:___servos_c_pwm_min)
                   00008948    00000006     rts2800_ml.lib : exit.c.obj (.ebss)
-                  0000894e    00000002     adc.obj (.ebss)
-                  00008950    00000001     uart.obj (.ebss)
+                  0000894e    00000002                    : _lock.c.obj (.ebss:__unlock)
+                  00008950    00000002     adc.obj (.ebss)
+                  00008952    00000001     uart.obj (.ebss)
 
-.econst    1    00008952    00000020     
-                  00008952    00000010     main.obj (.econst:_$P$T0$1)
-                  00008962    00000010     main.obj (.econst:_$P$T1$2)
+.econst    1    00008954    00000024     
+                  00008954    00000010     main.obj (.econst:_$P$T0$1)
+                  00008964    00000010     main.obj (.econst:_$P$T1$2)
+                  00008974    00000004     uart.obj (.econst:.string)
 
 DevEmuRegsFile 
 *          1    00000880    00000004     UNINITIALIZED
@@ -251,13 +251,13 @@ MODULE SUMMARY
        Module                          code   initialized data   uninitialized data
        ------                          ----   ----------------   ------------------
     .\
-       servo.obj                       406    0                  17                
+       servo.obj                       455    0                  16                
        adc.obj                         323    0                  2                 
-       DevInit.obj                     258    0                  0                 
-       main.obj                        110    48                 37                
-       uart.obj                        166    0                  15                
+       uart.obj                        294    4                  15                
+       DevInit.obj                     246    0                  0                 
+       main.obj                        143    48                 40                
     +--+-------------------------------+------+------------------+--------------------+
-       Total:                          1263   48                 71                
+       Total:                          1461   52                 73                
                                                                                    
     .\Peripheral_Headers\
        F2802x_GlobalVariableDefs.obj   0      0                  1052              
@@ -282,7 +282,7 @@ MODULE SUMMARY
                                                                                    
        Stack:                          0      0                  768               
     +--+-------------------------------+------+------------------+--------------------+
-       Grand Total:                    1648   72                 1901              
+       Grand Total:                    1846   76                 1903              
 
 
 GLOBAL DATA SYMBOLS: SORTED BY DATA PAGE
@@ -345,27 +345,29 @@ address     data page           name
 00008900     224 (00008900)     ___uart_c_buffer_string
 0000890e     224 (00008900)     _buffer_string
 0000891c     224 (00008900)     _completed_string
-0000892a     224 (00008900)     _adc_out_x
-0000892b     224 (00008900)     _adc_out_y
-0000892c     224 (00008900)     _fir_N
-0000892d     224 (00008900)     _N
-0000892e     224 (00008900)     _fir_counter
-0000892f     224 (00008900)     _adc_result_FIR_N
-00008930     224 (00008900)     _servo_degs
-00008931     224 (00008900)     _buffer_index
-00008932     224 (00008900)     _buffer_string_ready
-00008933     224 (00008900)     ___servos_c_pwm_max
-0000893b     224 (00008900)     _input_conv
-0000893c     224 (00008900)     __lock
-0000893e     224 (00008900)     __unlock
+0000892a     224 (00008900)     _x_next
+0000892b     224 (00008900)     _y_next
+0000892c     224 (00008900)     _z
+0000892d     224 (00008900)     _adc_out_x
+0000892e     224 (00008900)     _adc_out_y
+0000892f     224 (00008900)     _fir_N
+00008930     224 (00008900)     _N
+00008931     224 (00008900)     _fir_counter
+00008932     224 (00008900)     _adc_result_FIR_N
+00008933     224 (00008900)     _servo_degs
+00008934     224 (00008900)     _buffer_index
+00008935     224 (00008900)     _buffer_string_ready
+00008936     224 (00008900)     ___servos_c_pwm_max
+0000893e     224 (00008900)     __lock
 
 00008940     225 (00008940)     ___servos_c_pwm_min
 00008948     225 (00008940)     ___TI_enable_exit_profile_output
 0000894a     225 (00008940)     ___TI_cleanup_ptr
 0000894c     225 (00008940)     ___TI_dtors_ptr
-0000894e     225 (00008940)     ___adc_c_temp_slope
-0000894f     225 (00008940)     ___adc_c_temp_offset
-00008950     225 (00008940)     ___uart_c_buffer_index
+0000894e     225 (00008940)     __unlock
+00008950     225 (00008940)     ___adc_c_temp_slope
+00008951     225 (00008940)     ___adc_c_temp_offset
+00008952     225 (00008940)     ___uart_c_buffer_index
 
 003d7fff    f5ff (003d7fc0)     _PartIdRegs
 
@@ -377,13 +379,13 @@ GLOBAL SYMBOLS: SORTED ALPHABETICALLY BY Name
 page  address   name                            
 ----  -------   ----                            
 0     00008000  .text                           
-0     000085c2  C$$EXIT                         
-0     000084ea  FS$$MPY                         
-0     0000860f  FS$$TOU                         
-0     00008598  L$$DIV                          
-0     000085a7  L$$MOD                          
-0     000085b5  UL$$DIV                         
-0     000085bc  UL$$MOD                         
+0     00008688  C$$EXIT                         
+0     000085b0  FS$$MPY                         
+0     000086d5  FS$$TOU                         
+0     0000865e  L$$DIV                          
+0     0000866d  L$$MOD                          
+0     0000867b  UL$$DIV                         
+0     00008682  UL$$MOD                         
 1     00007100  _AdcRegs                        
 1     00000b00  _AdcResult                      
 1     00006400  _Comp1Regs                      
@@ -394,7 +396,7 @@ page  address   name
 1     003f7ff8  _CsmPwl                         
 1     00000ae0  _CsmRegs                        
 1     00000880  _DevEmuRegs                     
-0     000082d9  _DeviceInit                     
+0     00008430  _DeviceInit                     
 1     00006a00  _ECap1Regs                      
 1     00006800  _EPwm1Regs                      
 1     00006840  _EPwm2Regs                      
@@ -409,21 +411,21 @@ page  address   name
 1     00006fc0  _GpioDataRegs                   
 1     00006fe0  _GpioIntRegs                    
 1     00007900  _I2caRegs                       
-0     00008663  _ISR_ILLEGAL                    
-0     000083c3  _MemCopy                        
-1     0000892d  _N                              
+0     00008729  _ISR_ILLEGAL                    
+0     0000850e  _MemCopy                        
+1     00008930  _N                              
 1     00007060  _NmiIntruptRegs                 
-0     0000834e  _PLLset                         
+0     00008499  _PLLset                         
 1     003d7fff  _PartIdRegs                     
-0     00008388  _PieCntlInit                    
+0     000084d3  _PieCntlInit                    
 1     00000ce0  _PieCtrlRegs                    
 1     00000d00  _PieVectTable                   
-0     000083a7  _PieVectTableInit               
+0     000084f2  _PieVectTableInit               
 1     00007050  _SciaRegs                       
 1     00007040  _SpiaRegs                       
 1     00007010  _SysCtrlRegs                    
 1     00000985  _SysPwrCtrlRegs                 
-0     00008346  _WDogDisable                    
+0     00008491  _WDogDisable                    
 1     00007070  _XIntruptRegs                   
 1     00000700  __STACK_END                     
 abs   00000300  __STACK_SIZE                    
@@ -433,60 +435,63 @@ abs   00000300  __STACK_SIZE
 abs   ffffffff  ___TI_pprof_out_hndl            
 abs   ffffffff  ___TI_prof_data_size            
 abs   ffffffff  ___TI_prof_data_start           
-1     0000894f  ___adc_c_temp_offset            
-1     0000894e  ___adc_c_temp_slope             
+1     00008951  ___adc_c_temp_offset            
+1     00008950  ___adc_c_temp_slope             
 abs   ffffffff  ___binit__                      
 abs   ffffffff  ___c_args__                     
 0     00000050  ___cinit__                      
-0     00008670  ___etext__                      
+0     00008736  ___etext__                      
 abs   ffffffff  ___pinit__                      
-1     00008933  ___servos_c_pwm_max             
+1     00008936  ___servos_c_pwm_max             
 1     00008940  ___servos_c_pwm_min             
 0     00008000  ___text__                       
-1     00008950  ___uart_c_buffer_index          
+1     00008952  ___uart_c_buffer_index          
 1     00008900  ___uart_c_buffer_string         
-0     00008649  __args_main                     
-1     0000893c  __lock                          
-0     00008662  __nop                           
-0     0000865e  __register_lock                 
-0     0000865a  __register_unlock               
+0     0000870f  __args_main                     
+1     0000893e  __lock                          
+0     00008728  __nop                           
+0     00008724  __register_lock                 
+0     00008720  __register_unlock               
 1     00000400  __stack                         
-0     0000866f  __system_post_cinit             
-0     0000866d  __system_pre_init               
-1     0000893e  __unlock                        
-0     000085c2  _abort                          
-0     00008196  _adc_init                       
-1     0000892a  _adc_out_x                      
-1     0000892b  _adc_out_y                      
-1     0000892f  _adc_result_FIR_N               
-0     0000825b  _adc_sample                     
-0     00008213  _adc_trigger_select             
-1     00008931  _buffer_index                   
+0     00008735  __system_post_cinit             
+0     00008733  __system_pre_init               
+1     0000894e  __unlock                        
+0     00008688  _abort                          
+0     000081c7  _adc_init                       
+1     0000892d  _adc_out_x                      
+1     0000892e  _adc_out_y                      
+1     00008932  _adc_result_FIR_N               
+0     0000828c  _adc_sample                     
+0     00008244  _adc_trigger_select             
+1     00008934  _buffer_index                   
 1     0000890e  _buffer_string                  
-1     00008932  _buffer_string_ready            
-0     00008544  _c_int00                        
+1     00008935  _buffer_string_ready            
+0     0000860a  _c_int00                        
 1     0000891c  _completed_string               
-0     000085eb  _copy_in                        
-0     000085c4  _exit                           
-1     0000892c  _fir_N                          
-1     0000892e  _fir_counter                    
-1     0000893b  _input_conv                     
-0     0000847c  _main                           
-0     0000862c  _memcpy                         
-0     00008477  _parse_rx                       
-1     00008930  _servo_degs                     
+0     000086b1  _copy_in                        
+0     00008187  _enable_epwm_interrupts         
+0     0000868a  _exit                           
+1     0000892f  _fir_N                          
+1     00008931  _fir_counter                    
+0     00008521  _main                           
+0     000086f2  _memcpy                         
+0     000083a6  _parse_rx                       
+1     00008933  _servo_degs                     
 0     00008000  _servo_init                     
 0     0000812d  _servo_set                      
-0     00008668  _strcpy                         
-0     000082a3  _temp_sample                    
-0     000083d6  _uart_init                      
-0     00008429  _uart_rx                        
-0     0000840b  _uart_tx_char                   
-0     00008415  _uart_tx_str                    
-0     000082b9  _y_fit                          
+0     0000872e  _strcpy                         
+0     000082d4  _temp_sample                    
+0     0000830a  _uart_init                      
+0     0000835d  _uart_rx                        
+0     0000833f  _uart_tx_char                   
+0     00008349  _uart_tx_str                    
+1     0000892a  _x_next                         
+0     000082ea  _y_fit                          
+1     0000892b  _y_next                         
+1     0000892c  _z                              
 abs   ffffffff  binit                           
 0     00000050  cinit                           
-0     00008670  etext                           
+0     00008736  etext                           
 abs   ffffffff  pinit                           
 
 
@@ -500,45 +505,46 @@ page  address   name
 0     00008000  ___text__                       
 0     00008000  _servo_init                     
 0     0000812d  _servo_set                      
-0     00008196  _adc_init                       
-0     00008213  _adc_trigger_select             
-0     0000825b  _adc_sample                     
-0     000082a3  _temp_sample                    
-0     000082b9  _y_fit                          
-0     000082d9  _DeviceInit                     
-0     00008346  _WDogDisable                    
-0     0000834e  _PLLset                         
-0     00008388  _PieCntlInit                    
-0     000083a7  _PieVectTableInit               
-0     000083c3  _MemCopy                        
-0     000083d6  _uart_init                      
-0     0000840b  _uart_tx_char                   
-0     00008415  _uart_tx_str                    
-0     00008429  _uart_rx                        
-0     00008477  _parse_rx                       
-0     0000847c  _main                           
-0     000084ea  FS$$MPY                         
-0     00008544  _c_int00                        
-0     00008598  L$$DIV                          
-0     000085a7  L$$MOD                          
-0     000085b5  UL$$DIV                         
-0     000085bc  UL$$MOD                         
-0     000085c2  C$$EXIT                         
-0     000085c2  _abort                          
-0     000085c4  _exit                           
-0     000085eb  _copy_in                        
-0     0000860f  FS$$TOU                         
-0     0000862c  _memcpy                         
-0     00008649  __args_main                     
-0     0000865a  __register_unlock               
-0     0000865e  __register_lock                 
-0     00008662  __nop                           
-0     00008663  _ISR_ILLEGAL                    
-0     00008668  _strcpy                         
-0     0000866d  __system_pre_init               
-0     0000866f  __system_post_cinit             
-0     00008670  ___etext__                      
-0     00008670  etext                           
+0     00008187  _enable_epwm_interrupts         
+0     000081c7  _adc_init                       
+0     00008244  _adc_trigger_select             
+0     0000828c  _adc_sample                     
+0     000082d4  _temp_sample                    
+0     000082ea  _y_fit                          
+0     0000830a  _uart_init                      
+0     0000833f  _uart_tx_char                   
+0     00008349  _uart_tx_str                    
+0     0000835d  _uart_rx                        
+0     000083a6  _parse_rx                       
+0     00008430  _DeviceInit                     
+0     00008491  _WDogDisable                    
+0     00008499  _PLLset                         
+0     000084d3  _PieCntlInit                    
+0     000084f2  _PieVectTableInit               
+0     0000850e  _MemCopy                        
+0     00008521  _main                           
+0     000085b0  FS$$MPY                         
+0     0000860a  _c_int00                        
+0     0000865e  L$$DIV                          
+0     0000866d  L$$MOD                          
+0     0000867b  UL$$DIV                         
+0     00008682  UL$$MOD                         
+0     00008688  C$$EXIT                         
+0     00008688  _abort                          
+0     0000868a  _exit                           
+0     000086b1  _copy_in                        
+0     000086d5  FS$$TOU                         
+0     000086f2  _memcpy                         
+0     0000870f  __args_main                     
+0     00008720  __register_unlock               
+0     00008724  __register_lock                 
+0     00008728  __nop                           
+0     00008729  _ISR_ILLEGAL                    
+0     0000872e  _strcpy                         
+0     00008733  __system_pre_init               
+0     00008735  __system_post_cinit             
+0     00008736  ___etext__                      
+0     00008736  etext                           
 1     00000400  __stack                         
 1     00000700  __STACK_END                     
 1     00000880  _DevEmuRegs                     
@@ -575,26 +581,28 @@ page  address   name
 1     00008900  ___uart_c_buffer_string         
 1     0000890e  _buffer_string                  
 1     0000891c  _completed_string               
-1     0000892a  _adc_out_x                      
-1     0000892b  _adc_out_y                      
-1     0000892c  _fir_N                          
-1     0000892d  _N                              
-1     0000892e  _fir_counter                    
-1     0000892f  _adc_result_FIR_N               
-1     00008930  _servo_degs                     
-1     00008931  _buffer_index                   
-1     00008932  _buffer_string_ready            
-1     00008933  ___servos_c_pwm_max             
-1     0000893b  _input_conv                     
-1     0000893c  __lock                          
-1     0000893e  __unlock                        
+1     0000892a  _x_next                         
+1     0000892b  _y_next                         
+1     0000892c  _z                              
+1     0000892d  _adc_out_x                      
+1     0000892e  _adc_out_y                      
+1     0000892f  _fir_N                          
+1     00008930  _N                              
+1     00008931  _fir_counter                    
+1     00008932  _adc_result_FIR_N               
+1     00008933  _servo_degs                     
+1     00008934  _buffer_index                   
+1     00008935  _buffer_string_ready            
+1     00008936  ___servos_c_pwm_max             
+1     0000893e  __lock                          
 1     00008940  ___servos_c_pwm_min             
 1     00008948  ___TI_enable_exit_profile_output
 1     0000894a  ___TI_cleanup_ptr               
 1     0000894c  ___TI_dtors_ptr                 
-1     0000894e  ___adc_c_temp_slope             
-1     0000894f  ___adc_c_temp_offset            
-1     00008950  ___uart_c_buffer_index          
+1     0000894e  __unlock                        
+1     00008950  ___adc_c_temp_slope             
+1     00008951  ___adc_c_temp_offset            
+1     00008952  ___uart_c_buffer_index          
 1     003d7fff  _PartIdRegs                     
 1     003f7ff8  _CsmPwl                         
 abs   00000300  __STACK_SIZE                    
@@ -607,4 +615,4 @@ abs   ffffffff  ___pinit__
 abs   ffffffff  binit                           
 abs   ffffffff  pinit                           
 
-[112 symbols]
+[115 symbols]

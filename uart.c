@@ -113,45 +113,44 @@ void uart_rx(char **input_string, int *ready) {
 
     //UART INTERRUPT ROUTINE
     //UART INTERRUPT ROUTINE
-    if(SciaRegs.SCIFFRX.bit.RXFFINT==1)
-    {
-        SciaRegs.SCIFFRX.bit.RXFFINTCLR = 1; // Clear int flag for fifo
-        strcpy(__uart_c_buffer_string, input_string);
 
-        while(SciaRegs.SCIFFRX.bit.RXFFST != 0) {
+    SciaRegs.SCIFFRX.bit.RXFFINTCLR = 1; // Clear int flag for fifo
+    strcpy(__uart_c_buffer_string, input_string);
 
-            //Dump result into buffer, parse into string
-            uint16_t buffer_int = SciaRegs.SCIRXBUF.all; //for dumping whole word into
-            char buffer = (char) buffer_int; // just the char part
+    while(SciaRegs.SCIFFRX.bit.RXFFST != 0) {
 
-            //Ensure buffer string ready starts at 0
-            *ready = 0;
+        //Dump result into buffer, parse into string
+        uint16_t buffer_int = SciaRegs.SCIRXBUF.all; //for dumping whole word into
+        char buffer = (char) buffer_int; // just the char part
 
-            //Make decision of indexing based on character
-            if(buffer=='<') {
-                //Restart buffer index
-                __uart_c_buffer_index=0;
+        //Ensure buffer string ready starts at 0
+        *ready = 0;
 
-                //Clear string
-                int j;
-                for(j=0; j<UART_BUFF_SIZE; j++) __uart_c_buffer_string[j]=NULL;
+        //Make decision of indexing based on character
+        if(buffer=='<') {
+            //Restart buffer index
+            __uart_c_buffer_index=0;
 
-            } else if(buffer=='>') {
-                //End of uart buffer, put eol
-                __uart_c_buffer_string[__uart_c_buffer_index]='\0';
+            //Clear string
+            int j;
+            for(j=0; j<UART_BUFF_SIZE; j++) __uart_c_buffer_string[j]=NULL;
 
-                //Signal flag that string can be dumped and processed
-                *ready=1;
-            } else {
-                //dump buffer in appropriate spot in buffer string
-                __uart_c_buffer_string[__uart_c_buffer_index] = (char) buffer;
+        } else if(buffer=='>') {
+            //End of uart buffer, put eol
+            __uart_c_buffer_string[__uart_c_buffer_index]='\0';
 
-                //increment the index for next character
-                __uart_c_buffer_index++;
-            }
+            //Signal flag that string can be dumped and processed
+            *ready=1;
+        } else {
+            //dump buffer in appropriate spot in buffer string
+            __uart_c_buffer_string[__uart_c_buffer_index] = (char) buffer;
+
+            //increment the index for next character
+            __uart_c_buffer_index++;
         }
-        strcpy(input_string, __uart_c_buffer_string);
     }
+    strcpy(input_string, __uart_c_buffer_string);
+
 }
 
 

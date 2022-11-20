@@ -26,7 +26,6 @@ uint16_t __servos_c_pwm_max[8];
 //**************************//
 void servo_init(int servos, float dc_min[8], float dc_max[8]) {
     EALLOW; //Edit protected reg's
-
     SysCtrlRegs.PCLKCR0.bit.TBCLKSYNC = 1;   // Enable TBCLK
 
     //Enable PWMs, depending on how many servos there are
@@ -132,6 +131,8 @@ void servo_init(int servos, float dc_min[8], float dc_max[8]) {
         EPwm4Regs.AQCTLB.bit.CBU = AQ_CLEAR; // Force EPWM Low when counter == CMPB
     }
 
+
+
     EDIS;
 
     //Set PWM Mins
@@ -159,11 +160,10 @@ void servo_init(int servos, float dc_min[8], float dc_max[8]);
 // Return : None
 //
 //**************************//
-uint16_t input_conv;
 void servo_set(uint16_t channel, uint16_t input) {
 
     //Vars for calculating servo position
-    //uint16_t input_conv;
+    uint16_t input_conv;
 
     //Convert value for PWM
     //input_conv = ((uint32_t) __servos_c_pwm_max[channel] - (uint32_t) __servos_c_pwm_min[channel]) * ((uint32_t) input - (uint32_t) )/ (SERVO_MAX - SERVO-MIN) + (uint32_t) __servos_c_pwm_min[channel];
@@ -201,5 +201,46 @@ void servo_set(uint16_t channel, uint16_t input) {
     EDIS;
 
     //*servo = servo_convert(degrees);
+}
 
+//****** enable_epwm_interrupts  ********//
+//
+// Clears spurious ePWM flags and enables ePWM interrupts
+//
+// Arguments:
+// int servos - how many servos there are (2 servos per epwm interrupt)
+//
+// Return : None
+//
+//**************************//
+void enable_epwm_interrupts(int servos) {
+    //Allow changing regs
+    EALLOW;
+
+    //Clear any spurious ePWM flags (including PIEIFR)
+    //IFR = 0x0000;   // Clear all CPU interrupt flags
+
+    //Enable ePWM interrupts
+    EPwm1Regs.ETSEL.bit.INTEN = 1; // Enable interrupt for servo1-2
+    EPwm1Regs.ETSEL.bit.INTSEL = 1; //Enable event time-base counter equal to zero.
+    EPwm1Regs.ETPS.bit.INTPRD = 1; // Trigger interrupt *any* time EPWM period is 0
+
+    if(servos>2) {
+        EPwm2Regs.ETSEL.bit.INTEN = 1; // Enable interrupt for servo1-2
+        EPwm2Regs.ETSEL.bit.INTSEL = 1; //Enable event time-base counter equal to zero.
+        EPwm2Regs.ETPS.bit.INTPRD = 1; // Trigger interrupt *any* time EPWM period is 0
+    }
+    if(servos>4) {
+        EPwm3Regs.ETSEL.bit.INTEN = 1; // Enable interrupt for servo1-2
+        EPwm3Regs.ETSEL.bit.INTSEL = 1; //Enable event time-base counter equal to zero.
+        EPwm3Regs.ETPS.bit.INTPRD = 1; // Trigger interrupt *any* time EPWM period is 0
+    }
+    if(servos>6) {
+        EPwm4Regs.ETSEL.bit.INTEN = 1; // Enable interrupt for servo1-2
+        EPwm4Regs.ETSEL.bit.INTSEL = 1; //Enable event time-base counter equal to zero.
+        EPwm4Regs.ETPS.bit.INTPRD = 1; // Trigger interrupt *any* time EPWM period is 0
+    }
+
+    //Protect regs
+    EDIS;
 }

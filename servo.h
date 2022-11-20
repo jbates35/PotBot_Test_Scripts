@@ -79,5 +79,16 @@ void servo_init(int servos, float dc_min[8], float dc_max[8]);
 //**************************//
 void servo_set(uint16_t channel, uint16_t input);
 
+//****** enable_epwm_interrupts  ********//
+//
+// Clears spurious ePWM flags and enables ePWM interrupts
+//
+// Arguments:
+// int servos - how many servos there are (2 servos per epwm interrupt)
+//
+// Return : None
+//
+//**************************//
+void enable_epwm_interrupts(int servos);
 
 #endif /* SERVO_H_ */

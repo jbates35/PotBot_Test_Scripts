@@ -1,14 +1,14 @@
 //============================================================================
 //============================================================================
 //
-// FILE:	ELEX7820Lab1-DevInit.c
-//		(note: this file is a copy of "BlinkingLED-DevInit_F2802x.c")
+// FILE:    ELEX7820Lab1-DevInit.c
+//      (note: this file is a copy of "BlinkingLED-DevInit_F2802x.c")
 //
-// TITLE:	Device initialization for F2802x series
+// TITLE:   Device initialization for F2802x series
 // 
-// Version:	1.0 	
+// Version: 1.0
 //
-// Date: 	27 Aug 09 	BRL
+// Date:    27 Aug 09   BRL
 //              24 Sep 18       DNR - update header prefixes from "DSP" to "F"
 //============================================================================
 //============================================================================
@@ -38,10 +38,10 @@ void ISR_ILLEGAL(void);
 
 void DeviceInit(void)
 {
-	//WDogDisable(); 	// Disable the watchdog initially
-	DINT;			// Global Disable all Interrupts
-	IER = 0x0000;	// Disable CPU interrupts
-	IFR = 0x0000;	// Clear all CPU interrupt flags
+    //WDogDisable();    // Disable the watchdog initially
+    DINT;           // Global Disable all Interrupts
+    IER = 0x0000;   // Disable CPU interrupts
+    IFR = 0x0000;   // Clear all CPU interrupt flags
 
 
 // The Device_cal function, which copies the ADC & oscillator calibration values
@@ -49,52 +49,52 @@ void DeviceInit(void)
 // in the Boot ROM. If the boot ROM code is bypassed during the debug process, the
 // following function MUST be called for the ADC and oscillators to function according
 // to specification.
-	EALLOW;
-	SysCtrlRegs.PCLKCR0.bit.ADCENCLK = 1; // Enable ADC peripheral clock
-	(*Device_cal)();					  // Auto-calibrate from TI OTP
-	SysCtrlRegs.PCLKCR0.bit.ADCENCLK = 0; // Return ADC clock to original state
-	EDIS;
+    EALLOW;
+    SysCtrlRegs.PCLKCR0.bit.ADCENCLK = 1; // Enable ADC peripheral clock
+    (*Device_cal)();                      // Auto-calibrate from TI OTP
+    SysCtrlRegs.PCLKCR0.bit.ADCENCLK = 0; // Return ADC clock to original state
+    EDIS;
 
 
 // Switch to Internal Oscillator 1 and turn off all other clock
 // sources to minimize power consumption
 
-	EALLOW;
-	SysCtrlRegs.CLKCTL.bit.INTOSC1OFF = 0;
+    EALLOW;
+    SysCtrlRegs.CLKCTL.bit.INTOSC1OFF = 0;
     SysCtrlRegs.CLKCTL.bit.OSCCLKSRCSEL=0;  // Clk Src = INTOSC1
-	SysCtrlRegs.CLKCTL.bit.XCLKINOFF=1;     // Turn off XCLKIN
-	SysCtrlRegs.CLKCTL.bit.XTALOSCOFF=1;    // Turn off XTALOSC
-	SysCtrlRegs.CLKCTL.bit.INTOSC2OFF=1;    // Turn off INTOSC2
+    SysCtrlRegs.CLKCTL.bit.XCLKINOFF=1;     // Turn off XCLKIN
+    SysCtrlRegs.CLKCTL.bit.XTALOSCOFF=1;    // Turn off XTALOSC
+    SysCtrlRegs.CLKCTL.bit.INTOSC2OFF=1;    // Turn off INTOSC2
     EDIS;
 
 
 // SYSTEM CLOCK speed based on internal oscillator = 10 MHz
-// 0xC =  60	MHz		(12)
-// 0xB =  55	MHz		(11)
-// 0xA =  50	MHz		(10)
-// 0x9 =  45	MHz		(9)
-// 0x8 =  40	MHz		(8)
-// 0x7 =  35	MHz		(7)
-// 0x6 =  30	MHz		(6)
-// 0x5 =  25	MHz		(5)
-// 0x4 =  20	MHz		(4)
-// 0x3 =  15	MHz		(3)
-// 0x2 =  10	MHz		(2)
+// 0xC =  60    MHz     (12)
+// 0xB =  55    MHz     (11)
+// 0xA =  50    MHz     (10)
+// 0x9 =  45    MHz     (9)
+// 0x8 =  40    MHz     (8)
+// 0x7 =  35    MHz     (7)
+// 0x6 =  30    MHz     (6)
+// 0x5 =  25    MHz     (5)
+// 0x4 =  20    MHz     (4)
+// 0x3 =  15    MHz     (3)
+// 0x2 =  10    MHz     (2)
 
-	PLLset(0xC);	// choose from options above
+    PLLset(0xC);    // choose from options above
 
 // Initialise interrupt controller and Vector Table
 // to defaults for now. Application ISR mapping done later.
-	PieCntlInit();		
-	PieVectTableInit();
+    PieCntlInit();
+    PieVectTableInit();
 
    EALLOW; // below registers are "protected", allow access.
 
 // LOW SPEED CLOCKS prescale register settings
-   //SysCtrlRegs.LOSPCP.all = 0x0002;		// Sysclk / 4 (15 MHz)
+   //SysCtrlRegs.LOSPCP.all = 0x0002;       // Sysclk / 4 (15 MHz)
    //SysCtrlRegs.LOSPCP.bit.LSPCLK = 0; // Sysclk
    //SysCtrlRegs.XCLK.bit.XCLKOUTDIV=2;
-      	
+
 // PERIPHERAL CLOCK ENABLES 
 //---------------------------------------------------
 // If you are not using a peripheral you may want to switch
@@ -105,16 +105,16 @@ void DeviceInit(void)
 
    SysCtrlRegs.PCLKCR0.bit.ADCENCLK = 1;    // ADC
    //------------------------------------------------
-   SysCtrlRegs.PCLKCR3.bit.COMP1ENCLK = 0;	// COMP1
-   SysCtrlRegs.PCLKCR3.bit.COMP2ENCLK = 0;	// COMP2
+   SysCtrlRegs.PCLKCR3.bit.COMP1ENCLK = 0;  // COMP1
+   SysCtrlRegs.PCLKCR3.bit.COMP2ENCLK = 0;  // COMP2
    //------------------------------------------------
    SysCtrlRegs.PCLKCR0.bit.I2CAENCLK = 0;   // I2C
    //------------------------------------------------
-   SysCtrlRegs.PCLKCR0.bit.SPIAENCLK = 0;	// SPI-A
+   SysCtrlRegs.PCLKCR0.bit.SPIAENCLK = 0;   // SPI-A
    //------------------------------------------------
-   //SysCtrlRegs.PCLKCR0.bit.SCIAENCLK = 1;  	// SCI-A
+   //SysCtrlRegs.PCLKCR0.bit.SCIAENCLK = 1;     // SCI-A
    //------------------------------------------------
-   SysCtrlRegs.PCLKCR1.bit.ECAP1ENCLK = 0;	//eCAP1
+   SysCtrlRegs.PCLKCR1.bit.ECAP1ENCLK = 0;  //eCAP1
 //   //------------------------------------------------
 //   SysCtrlRegs.PCLKCR1.bit.EPWM1ENCLK = 1;  // ePWM1
 //   SysCtrlRegs.PCLKCR1.bit.EPWM2ENCLK = 0;  // ePWM2
@@ -149,145 +149,148 @@ void DeviceInit(void)
 // QUICK NOTES on USAGE:
 //-----------------------
 // If GpioCtrlRegs.GP?MUX?bit.GPIO?= 1, 2 or 3 (i.e. Non GPIO func), then leave
-//	rest of lines commented
+//  rest of lines commented
 // If GpioCtrlRegs.GP?MUX?bit.GPIO?= 0 (i.e. GPIO func), then:
-//	1) uncomment GpioCtrlRegs.GP?DIR.bit.GPIO? = ? and choose pin to be IN or OUT
-//	2) If IN, can leave next to lines commented
-//	3) If OUT, uncomment line with ..GPACLEAR.. to force pin LOW or
-//			   uncomment line with ..GPASET.. to force pin HIGH or
+//  1) uncomment GpioCtrlRegs.GP?DIR.bit.GPIO? = ? and choose pin to be IN or OUT
+//  2) If IN, can leave next to lines commented
+//  3) If OUT, uncomment line with ..GPACLEAR.. to force pin LOW or
+//             uncomment line with ..GPASET.. to force pin HIGH or
 //--------------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------------
  /*
 //  GPIO-00 - PIN FUNCTION = --Spare--
-	GpioCtrlRegs.GPAMUX1.bit.GPIO0 = 1;		// 0=GPIO,  1=EPWM1A,  2=Resv,  3=Resv
-//	GpioCtrlRegs.GPADIR.bit.GPIO0 = 1;		// 1=OUTput,  0=INput
-//	GpioDataRegs.GPACLEAR.bit.GPIO0 = 1;	// uncomment if --> Set Low initially
-//	GpioDataRegs.GPASET.bit.GPIO0 = 1;		// uncomment if --> Set High initially
+    GpioCtrlRegs.GPAMUX1.bit.GPIO0 = 1;     // 0=GPIO,  1=EPWM1A,  2=Resv,  3=Resv
+//  GpioCtrlRegs.GPADIR.bit.GPIO0 = 1;      // 1=OUTput,  0=INput
+//  GpioDataRegs.GPACLEAR.bit.GPIO0 = 1;    // uncomment if --> Set Low initially
+//  GpioDataRegs.GPASET.bit.GPIO0 = 1;      // uncomment if --> Set High initially
     GpioCtrlRegs.GPAPUD.bit.GPIO0 = 1;    // Disable pull-up on GPIO0 (EPWM1A)
 //--------------------------------------------------------------------------------------
 //  GPIO-01 - PIN FUNCTION = --Spare--
-	GpioCtrlRegs.GPAMUX1.bit.GPIO1 = 1;		// 0=GPIO,  1=EPWM1B,  2=EMU0,  3=COMP1OUT
-//	GpioCtrlRegs.GPADIR.bit.GPIO1 = 1;		// 1=OUTput,  0=INput
-//	GpioDataRegs.GPACLEAR.bit.GPIO1 = 1;	// uncomment if --> Set Low initially
-//	GpioDataRegs.GPASET.bit.GPIO1 = 1;		// uncomment if --> Set High initially
+    GpioCtrlRegs.GPAMUX1.bit.GPIO1 = 1;     // 0=GPIO,  1=EPWM1B,  2=EMU0,  3=COMP1OUT
+//  GpioCtrlRegs.GPADIR.bit.GPIO1 = 1;      // 1=OUTput,  0=INput
+//  GpioDataRegs.GPACLEAR.bit.GPIO1 = 1;    // uncomment if --> Set Low initially
+//  GpioDataRegs.GPASET.bit.GPIO1 = 1;      // uncomment if --> Set High initially
     GpioCtrlRegs.GPAPUD.bit.GPIO1 = 1;    // Disable pull-up on GPIO1 (EPWM1B)
 //--------------------------------------------------------------------------------------
-	//Changed this to be output = low at beginning //JB
+    //Changed this to be output = low at beginning //JB
 
 
 
 //  GPIO-02 - PIN FUNCTION = --Spare--
-	GpioCtrlRegs.GPAMUX1.bit.GPIO2 = 0;		// 0=GPIO,  1=EPWM2A,  2=Resv,  3=Resv
-	GpioCtrlRegs.GPADIR.bit.GPIO2 = 1;		// 1=OUTput,  0=INput
-	GpioDataRegs.GPACLEAR.bit.GPIO2 = 1;	// uncomment if --> Set Low initially
-//	GpioDataRegs.GPASET.bit.GPIO2 = 0;		// uncomment if --> Set High initially
+    GpioCtrlRegs.GPAMUX1.bit.GPIO2 = 0;     // 0=GPIO,  1=EPWM2A,  2=Resv,  3=Resv
+    GpioCtrlRegs.GPADIR.bit.GPIO2 = 1;      // 1=OUTput,  0=INput
+    GpioDataRegs.GPACLEAR.bit.GPIO2 = 1;    // uncomment if --> Set Low initially
+//  GpioDataRegs.GPASET.bit.GPIO2 = 0;      // uncomment if --> Set High initially
 //--------------------------------------------------------------------------------------
 //  GPIO-03 - PIN FUNCTION = --Spare--
-	GpioCtrlRegs.GPAMUX1.bit.GPIO3 = 0;		// 0=GPIO,  1=EPWM2B,  2=Resv,  3=COMP2OUT
-	GpioCtrlRegs.GPADIR.bit.GPIO3 = 0;		// 1=OUTput,  0=INput 
-//	GpioDataRegs.GPACLEAR.bit.GPIO3 = 1;	// uncomment if --> Set Low initially
-//	GpioDataRegs.GPASET.bit.GPIO3 = 1;		// uncomment if --> Set High initially
+    GpioCtrlRegs.GPAMUX1.bit.GPIO3 = 0;     // 0=GPIO,  1=EPWM2B,  2=Resv,  3=COMP2OUT
+    GpioCtrlRegs.GPADIR.bit.GPIO3 = 0;      // 1=OUTput,  0=INput
+//  GpioDataRegs.GPACLEAR.bit.GPIO3 = 1;    // uncomment if --> Set Low initially
+//  GpioDataRegs.GPASET.bit.GPIO3 = 1;      // uncomment if --> Set High initially
 //--------------------------------------------------------------------------------------
 //  GPIO-04 - PIN FUNCTION = --Spare--
-	GpioCtrlRegs.GPAMUX1.bit.GPIO4 = 0;		// 0=GPIO,  1=EPWM3A, 2=Resv, 	3=Resv
-	GpioCtrlRegs.GPADIR.bit.GPIO4 = 0;		// 1=OUTput,  0=INput 
-//	GpioDataRegs.GPACLEAR.bit.GPIO4 = 1;	// uncomment if --> Set Low initially
-//	GpioDataRegs.GPASET.bit.GPIO4 = 1;		// uncomment if --> Set High initially
+    GpioCtrlRegs.GPAMUX1.bit.GPIO4 = 0;     // 0=GPIO,  1=EPWM3A, 2=Resv,   3=Resv
+    GpioCtrlRegs.GPADIR.bit.GPIO4 = 0;      // 1=OUTput,  0=INput
+//  GpioDataRegs.GPACLEAR.bit.GPIO4 = 1;    // uncomment if --> Set Low initially
+//  GpioDataRegs.GPASET.bit.GPIO4 = 1;      // uncomment if --> Set High initially
 //--------------------------------------------------------------------------------------
 //  GPIO-05 - PIN FUNCTION = --Spare--
-	GpioCtrlRegs.GPAMUX1.bit.GPIO5 = 0;		// 0=GPIO,  1=EPWM3B,  2=Resv,  3=ECAP1
-	GpioCtrlRegs.GPADIR.bit.GPIO5 = 0;		// 1=OUTput,  0=INput 
-//	GpioDataRegs.GPACLEAR.bit.GPIO5 = 1;	// uncomment if --> Set Low initially
-//	GpioDataRegs.GPASET.bit.GPIO5 = 1;		// uncomment if --> Set High initially
+    GpioCtrlRegs.GPAMUX1.bit.GPIO5 = 0;     // 0=GPIO,  1=EPWM3B,  2=Resv,  3=ECAP1
+    GpioCtrlRegs.GPADIR.bit.GPIO5 = 0;      // 1=OUTput,  0=INput
+//  GpioDataRegs.GPACLEAR.bit.GPIO5 = 1;    // uncomment if --> Set Low initially
+//  GpioDataRegs.GPASET.bit.GPIO5 = 1;      // uncomment if --> Set High initially
 //--------------------------------------------------------------------------------------
  *
- */
+
+
+            //Post for parsing (11us)
+            parse_rx(completed_string, &next_x, &next_y, &z);
 
 //  GPIO-06 - PIN FUNCTION = --Spare--
-	GpioCtrlRegs.GPAMUX1.bit.GPIO6 = 0;		// 0=GPIO,  1=EPWM4A,  2=SYNCI,  3=SYNCO
-	GpioCtrlRegs.GPADIR.bit.GPIO6 = 1;		// 1=OUTput,  0=INput
-	GpioDataRegs.GPACLEAR.bit.GPIO6 = 1;	// uncomment if --> Set Low initially
-//	GpioDataRegs.GPASET.bit.GPIO6 = 1;		// uncomment if --> Set High initially
+    GpioCtrlRegs.GPAMUX1.bit.GPIO6 = 0;     // 0=GPIO,  1=EPWM4A,  2=SYNCI,  3=SYNCO
+    GpioCtrlRegs.GPADIR.bit.GPIO6 = 1;      // 1=OUTput,  0=INput
+    GpioDataRegs.GPACLEAR.bit.GPIO6 = 1;    // uncomment if --> Set Low initially
+//  GpioDataRegs.GPASET.bit.GPIO6 = 1;      // uncomment if --> Set High initially
 //--------------------------------------------------------------------------------------
 //  GPIO-07 - PIN FUNCTION = --Spare--
-	GpioCtrlRegs.GPAMUX1.bit.GPIO7 = 0;		// 0=GPIO,  1=EPWM4B,  2=SCIRX-A,  3=Resv
-	GpioCtrlRegs.GPADIR.bit.GPIO7 = 0;		// 1=OUTput,  0=INput 
-//	GpioDataRegs.GPACLEAR.bit.GPIO7 = 1;	// uncomment if --> Set Low initially
-//	GpioDataRegs.GPASET.bit.GPIO7 = 1;		// uncomment if --> Set High initially
+    GpioCtrlRegs.GPAMUX1.bit.GPIO7 = 0;     // 0=GPIO,  1=EPWM4B,  2=SCIRX-A,  3=Resv
+    GpioCtrlRegs.GPADIR.bit.GPIO7 = 0;      // 1=OUTput,  0=INput
+//  GpioDataRegs.GPACLEAR.bit.GPIO7 = 1;    // uncomment if --> Set Low initially
+//  GpioDataRegs.GPASET.bit.GPIO7 = 1;      // uncomment if --> Set High initially
 //--------------------------------------------------------------------------------------
 //  GPIO-08 - GPIO-11 Do Not Exist
 //--------------------------------------------------------------------------------------
 //  GPIO-12 - PIN FUNCTION = --Spare--
-	GpioCtrlRegs.GPAMUX1.bit.GPIO12 = 0;	// 0=GPIO,  1=TZ1,  2=SCITX-A,  3=Resv
-	GpioCtrlRegs.GPADIR.bit.GPIO12 = 0;		// 1=OUTput,  0=INput 
-//	GpioDataRegs.GPACLEAR.bit.GPIO12 = 1;	// uncomment if --> Set Low initially
-//	GpioDataRegs.GPASET.bit.GPIO12 = 1;		// uncomment if --> Set High initially
+    GpioCtrlRegs.GPAMUX1.bit.GPIO12 = 0;    // 0=GPIO,  1=TZ1,  2=SCITX-A,  3=Resv
+    GpioCtrlRegs.GPADIR.bit.GPIO12 = 0;     // 1=OUTput,  0=INput
+//  GpioDataRegs.GPACLEAR.bit.GPIO12 = 1;   // uncomment if --> Set Low initially
+//  GpioDataRegs.GPASET.bit.GPIO12 = 1;     // uncomment if --> Set High initially
 //--------------------------------------------------------------------------------------
 //  GPIO-13 - GPIO-15 Do Not Exist
 //--------------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------------
-
+ */
 //  GPIO-16 - PIN FUNCTION = --Spare--
-	GpioCtrlRegs.GPAMUX2.bit.GPIO16 = 0;	// 0=GPIO,  1=SPISIMO-A,  2=Resv,  3=TZ2
-	GpioCtrlRegs.GPADIR.bit.GPIO16 = 0;		// 1=OUTput,  0=INput 
-//	GpioDataRegs.GPACLEAR.bit.GPIO16 = 1;	// uncomment if --> Set Low initially
-//	GpioDataRegs.GPASET.bit.GPIO16 = 1;		// uncomment if --> Set High initially
+    GpioCtrlRegs.GPAMUX2.bit.GPIO16 = 0;    // 0=GPIO,  1=SPISIMO-A,  2=Resv,  3=TZ2
+    GpioCtrlRegs.GPADIR.bit.GPIO16 = 0;     // 1=OUTput,  0=INput
+//  GpioDataRegs.GPACLEAR.bit.GPIO16 = 1;   // uncomment if --> Set Low initially
+//  GpioDataRegs.GPASET.bit.GPIO16 = 1;     // uncomment if --> Set High initially
 //--------------------------------------------------------------------------------------
 //  GPIO-17 - PIN FUNCTION = --Spare--
-	GpioCtrlRegs.GPAMUX2.bit.GPIO17 = 0;	// 0=GPIO,  1=SPISOMI-A,  2=Resv,  3=TZ3
-	GpioCtrlRegs.GPADIR.bit.GPIO17 = 0;		// 1=OUTput,  0=INput 
-//	GpioDataRegs.GPACLEAR.bit.GPIO17 = 1;	// uncomment if --> Set Low initially
-//	GpioDataRegs.GPASET.bit.GPIO17 = 1;		// uncomment if --> Set High initially
+    GpioCtrlRegs.GPAMUX2.bit.GPIO17 = 0;    // 0=GPIO,  1=SPISOMI-A,  2=Resv,  3=TZ3
+    GpioCtrlRegs.GPADIR.bit.GPIO17 = 0;     // 1=OUTput,  0=INput
+//  GpioDataRegs.GPACLEAR.bit.GPIO17 = 1;   // uncomment if --> Set Low initially
+//  GpioDataRegs.GPASET.bit.GPIO17 = 1;     // uncomment if --> Set High initially
 //--------------------------------------------------------------------------------------
 //  GPIO-18 - PIN FUNCTION = --Spare--
-	GpioCtrlRegs.GPAMUX2.bit.GPIO18 = 0;	// 0=GPIO,  1=SPICLK-A,  2=SCITX-A,  3=XCLKOUT
-	GpioCtrlRegs.GPADIR.bit.GPIO18 = 0;		// 1=OUTput,  0=INput 
-//	GpioDataRegs.GPACLEAR.bit.GPIO18 = 1;	// uncomment if --> Set Low initially
-//	GpioDataRegs.GPASET.bit.GPIO18 = 1;		// uncomment if --> Set High initially
+    GpioCtrlRegs.GPAMUX2.bit.GPIO18 = 0;    // 0=GPIO,  1=SPICLK-A,  2=SCITX-A,  3=XCLKOUT
+    GpioCtrlRegs.GPADIR.bit.GPIO18 = 0;     // 1=OUTput,  0=INput
+//  GpioDataRegs.GPACLEAR.bit.GPIO18 = 1;   // uncomment if --> Set Low initially
+//  GpioDataRegs.GPASET.bit.GPIO18 = 1;     // uncomment if --> Set High initially
 //--------------------------------------------------------------------------------------
 //  GPIO-19 - PIN FUNCTION = --Spare--
-	GpioCtrlRegs.GPAMUX2.bit.GPIO19 = 0;	// 0=GPIO,  1=SPISTE-A,  2=SCIRX-A,  3=ECAP1
-	GpioCtrlRegs.GPADIR.bit.GPIO19 = 0;		// 1=OUTput,  0=INput 
-//	GpioDataRegs.GPACLEAR.bit.GPIO19 = 1;	// uncomment if --> Set Low initially
-//	GpioDataRegs.GPASET.bit.GPIO19 = 1;		// uncomment if --> Set High initially
+    GpioCtrlRegs.GPAMUX2.bit.GPIO19 = 0;    // 0=GPIO,  1=SPISTE-A,  2=SCIRX-A,  3=ECAP1
+    GpioCtrlRegs.GPADIR.bit.GPIO19 = 1;     // 1=OUTput,  0=INput
+    GpioDataRegs.GPACLEAR.bit.GPIO19 = 1;   // uncomment if --> Set Low initially
+//  GpioDataRegs.GPASET.bit.GPIO19 = 1;     // uncomment if --> Set High initially
 //--------------------------------------------------------------------------------------
 //  GPIO-20 - GPIO-27 Do Not Exist
 //--------------------------------------------------------------------------------------
 //  GPIO-28 - PIN FUNCTION = --Spare--
-//	GpioCtrlRegs.GPAMUX2.bit.GPIO28 = 1;	// 0=GPIO,  1=SCIRX-A,  2=I2C-SDA,  3=TZ2
-//	GpioCtrlRegs.GPADIR.bit.GPIO28 = 0;		// 1=OUTput,  0=INput 
-//	GpioDataRegs.GPACLEAR.bit.GPIO28 = 1;	// uncomment if --> Set Low initially
-//	GpioDataRegs.GPASET.bit.GPIO28 = 1;		// uncomment if --> Set High initially
+//  GpioCtrlRegs.GPAMUX2.bit.GPIO28 = 1;    // 0=GPIO,  1=SCIRX-A,  2=I2C-SDA,  3=TZ2
+//  GpioCtrlRegs.GPADIR.bit.GPIO28 = 0;     // 1=OUTput,  0=INput
+//  GpioDataRegs.GPACLEAR.bit.GPIO28 = 1;   // uncomment if --> Set Low initially
+//  GpioDataRegs.GPASET.bit.GPIO28 = 1;     // uncomment if --> Set High initially
 //--------------------------------------------------------------------------------------
 //  GPIO-29 - PIN FUNCTION = --Spare--
-//	GpioCtrlRegs.GPAMUX2.bit.GPIO29 = 1;	// 0=GPIO,  1=SCITXD-A,  2=I2C-SCL,  3=TZ3
-//	GpioCtrlRegs.GPADIR.bit.GPIO29 = 0;		// 1=OUTput,  0=INput 
-//	GpioDataRegs.GPACLEAR.bit.GPIO29 = 1;	// uncomment if --> Set Low initially
-//	GpioDataRegs.GPASET.bit.GPIO29 = 1;		// uncomment if --> Set High initially
+//  GpioCtrlRegs.GPAMUX2.bit.GPIO29 = 1;    // 0=GPIO,  1=SCITXD-A,  2=I2C-SCL,  3=TZ3
+//  GpioCtrlRegs.GPADIR.bit.GPIO29 = 0;     // 1=OUTput,  0=INput
+//  GpioDataRegs.GPACLEAR.bit.GPIO29 = 1;   // uncomment if --> Set Low initially
+//  GpioDataRegs.GPASET.bit.GPIO29 = 1;     // uncomment if --> Set High initially
 //--------------------------------------------------------------------------------------
 //  GPIO-30 - GPIO-31 Do Not Exist
 //--------------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------------
 
 //  GPIO-32 - PIN FUNCTION = --Spare--
-	GpioCtrlRegs.GPBMUX1.bit.GPIO32 = 0;	// 0=GPIO,  1=I2C-SDA,  2=SYNCI,  3=ADCSOCA
-	GpioCtrlRegs.GPBDIR.bit.GPIO32 = 0;		// 1=OUTput,  0=INput 
-//	GpioDataRegs.GPBCLEAR.bit.GPIO32 = 1;	// uncomment if --> Set Low initially
-//	GpioDataRegs.GPBSET.bit.GPIO32 = 1;		// uncomment if --> Set High initially
+    GpioCtrlRegs.GPBMUX1.bit.GPIO32 = 0;    // 0=GPIO,  1=I2C-SDA,  2=SYNCI,  3=ADCSOCA
+    GpioCtrlRegs.GPBDIR.bit.GPIO32 = 0;     // 1=OUTput,  0=INput
+//  GpioDataRegs.GPBCLEAR.bit.GPIO32 = 1;   // uncomment if --> Set Low initially
+//  GpioDataRegs.GPBSET.bit.GPIO32 = 1;     // uncomment if --> Set High initially
 //--------------------------------------------------------------------------------------
 //  GPIO-33 - PIN FUNCTION = --Spare--
-	GpioCtrlRegs.GPBMUX1.bit.GPIO33 = 0;	// 0=GPIO,  1=I2C-SCL,  2=SYNCO,  3=ADCSOCB
-	GpioCtrlRegs.GPBDIR.bit.GPIO33 = 0;		// 1=OUTput,  0=INput 
-//	GpioDataRegs.GPBCLEAR.bit.GPIO33 = 1;	// uncomment if --> Set Low initially
-//	GpioDataRegs.GPBSET.bit.GPIO33 = 1;		// uncomment if --> Set High initially
+    GpioCtrlRegs.GPBMUX1.bit.GPIO33 = 0;    // 0=GPIO,  1=I2C-SCL,  2=SYNCO,  3=ADCSOCB
+    GpioCtrlRegs.GPBDIR.bit.GPIO33 = 0;     // 1=OUTput,  0=INput
+//  GpioDataRegs.GPBCLEAR.bit.GPIO33 = 1;   // uncomment if --> Set Low initially
+//  GpioDataRegs.GPBSET.bit.GPIO33 = 1;     // uncomment if --> Set High initially
 //--------------------------------------------------------------------------------------
 //  GPIO-34 - PIN FUNCTION = LED for F28027 USB dongle
-	GpioCtrlRegs.GPBMUX1.bit.GPIO34 = 0;	// 0=GPIO,  1=COMP2OUT,  2=EMU1,  3=Resv
-	GpioCtrlRegs.GPBDIR.bit.GPIO34 = 1;		// 1=OUTput,  0=INput 
-//	GpioDataRegs.GPBCLEAR.bit.GPIO34 = 1;	// uncomment if --> Set Low initially
-	GpioDataRegs.GPBSET.bit.GPIO34 = 1;		// uncomment if --> Set High initially
+    GpioCtrlRegs.GPBMUX1.bit.GPIO34 = 0;    // 0=GPIO,  1=COMP2OUT,  2=EMU1,  3=Resv
+    GpioCtrlRegs.GPBDIR.bit.GPIO34 = 1;     // 1=OUTput,  0=INput
+//  GpioDataRegs.GPBCLEAR.bit.GPIO34 = 1;   // uncomment if --> Set Low initially
+    GpioDataRegs.GPBSET.bit.GPIO34 = 1;     // uncomment if --> Set High initially
 //--------------------------------------------------------------------------------------
-	EDIS;	// Disable register access
+    EDIS;   // Disable register access
 }
 
 
@@ -315,7 +318,7 @@ void PLLset(Uint16 val)
    // Make sure the PLL is not running in limp mode
    if (SysCtrlRegs.PLLSTS.bit.MCLKSTS != 0)
    {
-	  EALLOW;
+      EALLOW;
       // OSCCLKSRC1 failure detected. PLL running in limp mode.
       // Re-enable missing clock logic.
       SysCtrlRegs.PLLSTS.bit.MCLKCLR = 1;
@@ -361,20 +364,20 @@ void PLLset(Uint16 val)
       // The watchdog should be disabled before this loop, or fed within
       // the loop via ServiceDog().
 
-	  // Uncomment to disable the watchdog
+      // Uncomment to disable the watchdog
       WDogDisable();
 
-	  while(SysCtrlRegs.PLLSTS.bit.PLLLOCKS != 1) {}
+      while(SysCtrlRegs.PLLSTS.bit.PLLLOCKS != 1) {}
 
       EALLOW;
       SysCtrlRegs.PLLSTS.bit.MCLKOFF = 0;
-	  EDIS;
-	}
+      EDIS;
+    }
 
-	  //divide down SysClk by 2 to increase stability
-	EALLOW;
-	SysCtrlRegs.PLLSTS.bit.DIVSEL = 2; 
-	EDIS;
+      //divide down SysClk by 2 to increase stability
+    EALLOW;
+    SysCtrlRegs.PLLSTS.bit.DIVSEL = 2;
+    EDIS;
 }
 
 
@@ -388,48 +391,48 @@ void PieCntlInit(void)
     // Disable the PIE
     PieCtrlRegs.PIECTRL.bit.ENPIE = 0;
 
-	// Clear all PIEIER registers:
-	PieCtrlRegs.PIEIER1.all = 0;
-	PieCtrlRegs.PIEIER2.all = 0;
-	PieCtrlRegs.PIEIER3.all = 0;	
-	PieCtrlRegs.PIEIER4.all = 0;
-	PieCtrlRegs.PIEIER5.all = 0;
-	PieCtrlRegs.PIEIER6.all = 0;
-	PieCtrlRegs.PIEIER7.all = 0;
-	PieCtrlRegs.PIEIER8.all = 0;
-	PieCtrlRegs.PIEIER9.all = 0;
-	PieCtrlRegs.PIEIER10.all = 0;
-	PieCtrlRegs.PIEIER11.all = 0;
-	PieCtrlRegs.PIEIER12.all = 0;
+    // Clear all PIEIER registers:
+    PieCtrlRegs.PIEIER1.all = 0;
+    PieCtrlRegs.PIEIER2.all = 0;
+    PieCtrlRegs.PIEIER3.all = 0;
+    PieCtrlRegs.PIEIER4.all = 0;
+    PieCtrlRegs.PIEIER5.all = 0;
+    PieCtrlRegs.PIEIER6.all = 0;
+    PieCtrlRegs.PIEIER7.all = 0;
+    PieCtrlRegs.PIEIER8.all = 0;
+    PieCtrlRegs.PIEIER9.all = 0;
+    PieCtrlRegs.PIEIER10.all = 0;
+    PieCtrlRegs.PIEIER11.all = 0;
+    PieCtrlRegs.PIEIER12.all = 0;
 
-	// Clear all PIEIFR registers:
-	PieCtrlRegs.PIEIFR1.all = 0;
-	PieCtrlRegs.PIEIFR2.all = 0;
-	PieCtrlRegs.PIEIFR3.all = 0;	
-	PieCtrlRegs.PIEIFR4.all = 0;
-	PieCtrlRegs.PIEIFR5.all = 0;
-	PieCtrlRegs.PIEIFR6.all = 0;
-	PieCtrlRegs.PIEIFR7.all = 0;
-	PieCtrlRegs.PIEIFR8.all = 0;
-	PieCtrlRegs.PIEIFR9.all = 0;
-	PieCtrlRegs.PIEIFR10.all = 0;
-	PieCtrlRegs.PIEIFR11.all = 0;
-	PieCtrlRegs.PIEIFR12.all = 0;
-}	
+    // Clear all PIEIFR registers:
+    PieCtrlRegs.PIEIFR1.all = 0;
+    PieCtrlRegs.PIEIFR2.all = 0;
+    PieCtrlRegs.PIEIFR3.all = 0;
+    PieCtrlRegs.PIEIFR4.all = 0;
+    PieCtrlRegs.PIEIFR5.all = 0;
+    PieCtrlRegs.PIEIFR6.all = 0;
+    PieCtrlRegs.PIEIFR7.all = 0;
+    PieCtrlRegs.PIEIFR8.all = 0;
+    PieCtrlRegs.PIEIFR9.all = 0;
+    PieCtrlRegs.PIEIFR10.all = 0;
+    PieCtrlRegs.PIEIFR11.all = 0;
+    PieCtrlRegs.PIEIFR12.all = 0;
+}
 
 
 void PieVectTableInit(void)
 {
-	int16 i;
-   	PINT *Dest = &PieVectTable.TINT1;
+    int16 i;
+    PINT *Dest = &PieVectTable.TINT1;
 
-   	EALLOW;
-   	for(i=0; i < 115; i++) 
+    EALLOW;
+    for(i=0; i < 115; i++)
     *Dest++ = &ISR_ILLEGAL;
-   	EDIS;
+    EDIS;
  
-   	// Enable the PIE Vector Table
-   	PieCtrlRegs.PIECTRL.bit.ENPIE = 1; 	
+    // Enable the PIE Vector Table
+    PieCtrlRegs.PIECTRL.bit.ENPIE = 1;
 }
 
 interrupt void ISR_ILLEGAL(void)   // Illegal operation TRAP
@@ -486,10 +489,10 @@ void InitFlash(void)
 // This function will copy the specified memory contents from
 // one location to another. 
 // 
-//	Uint16 *SourceAddr        Pointer to the first word to be moved
+//  Uint16 *SourceAddr        Pointer to the first word to be moved
 //                          SourceAddr < SourceEndAddr
-//	Uint16* SourceEndAddr     Pointer to the last word to be moved
-//	Uint16* DestAddr          Pointer to the first destination word
+//  Uint16* SourceEndAddr     Pointer to the last word to be moved
+//  Uint16* DestAddr          Pointer to the first destination word
 //
 // No checks are made for invalid memory locations or that the
 // end address is > then the first start address.
@@ -502,11 +505,10 @@ void MemCopy(Uint16 *SourceAddr, Uint16* SourceEndAddr, Uint16* DestAddr)
     }
     return;
 }
-	
+
 //===========================================================================
 // End of file.
 //===========================================================================
-
 
 
 

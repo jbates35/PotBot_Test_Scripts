@@ -14,6 +14,7 @@
 
 int16_t adc_in_x[] = {[0 ... FIR_INPUT_SIZE*2-1] = 0}; // adc for x
 int16_t adc_in_y[] = {[0 ... FIR_INPUT_SIZE*2-1] = 0}; // adc for y
+int16_t x_next, y_next, z;
 int16_t adc_out_x = 0; // output buffer for x
 int16_t adc_out_y = 0; // output buffer for y
 
@@ -48,6 +49,7 @@ int main(void)
     float dc_max[8] = { 0.118, 0.118, 0.118, 0,0,0,0,0 };
 
     servo_init(3, dc_min, dc_max); // initialize 3 servos
+    enable_epwm_interrupts(3); // Enable EPWM interrupts
 
     adc_init(3,true); //Initialize 3 ADC channels, and turn temperature sensor on
     //adc_trigger_select(0, TRIGGER_EPWM1A);
@@ -69,8 +71,10 @@ int main(void)
 
     while(1) {
 
-        //ISR Function below
-        uart_rx(&buffer_string, &buffer_string_ready);
+        if(SciaRegs.SCIFFRX.bit.RXFFINT==1) {
+            //ISR Function below
+            uart_rx(&buffer_string, &buffer_string_ready);
+        }
 
         //If flag ready, dump buffer_string into character string
         if(buffer_string_ready==1) {
@@ -87,13 +91,13 @@ int main(void)
             EDIS;
 
             //Post for parsing
+            parse_rx(completed_string, &x_next, &y_next, &z);
         }
 
         //END UART ISR
 
         if(CpuTimer1Regs.TCR.bit.TIF==1) {
             CpuTimer1Regs.TCR.bit.TIF=1;
-
             uart_tx_char('r');
         }
 
@@ -140,8 +144,13 @@ int main(void)
 
  */
         }
+
+        if(EPwm1Regs.ETFLG.bit.INT==1) {
+            EPwm1Regs.ETCLR.bit.INT=1; // Clear EPWM 1 flag
+            GpioDataRegs.GPATOGGLE.bit.GPIO19 = 1;
+        }
     }
-	return 0;
+    return 0;
 }
 
 
