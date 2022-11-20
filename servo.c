@@ -9,7 +9,6 @@
  */
 
 #include "servo.h"
-#include "adc.h"
 
 //Servo parameters - made global so they don't have to be recalculated
 uint16_t __servos_c_pwm_min[8];

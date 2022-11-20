@@ -1,4 +1,4 @@
-#include "Peripheral_Headers/F2802x_device.h"
+    #include "Peripheral_Headers/F2802x_device.h"
 #include "F2807x_EPwm_defines.h"
 
 #include "servo.h"

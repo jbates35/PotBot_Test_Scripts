@@ -41,6 +41,7 @@
 
 #define PWM_MIN 0
 #define PWM_MAX
+
 //Pointers to write the value to
 #define SERVO_1_REG EPwm1Regs.CMPA.half.CMPA
 #define SERVO_2_REG EPwm1Regs.CMPB
@@ -52,6 +53,7 @@
 #define SERVO_8_REG EPwm4Regs.CMPB
 
 #include "F2807x_EPwm_defines.h"
+#include "adc.h"
 #include "Peripheral_Headers/F2802x_device.h"
 
 //****** servo_init ********//
