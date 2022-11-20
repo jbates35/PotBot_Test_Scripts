@@ -77,14 +77,14 @@ void uart_rx(char **input_string, int *ready);
 // Take the rx buffer and parse through it, converting the string into x y and z values
 //
 // Arguments:
-// char *buffer - variable to dump the rx buffer into
+// char * string - string that holds the completed UART transmitted buffer
 // int16_t *x - pointer of x position
 // int16_t *y - pointer of y position
-// uint16_t *z - pointer of z state (true or false)
+// int16_t *z - pointer of z state (true or false)
 //
 // Return : None
 //
 //**************************//
-void parse_rx(char string[14], int16_t *x, int16_t *y, uint16_t *z);
+int parse_rx(char * string, int16_t *x, int16_t *y, int16_t *z);
 
 #endif /* UART_H_ */
