@@ -110,7 +110,7 @@ void DeviceInit(void)
    //------------------------------------------------
    SysCtrlRegs.PCLKCR0.bit.I2CAENCLK = 0;   // I2C
    //------------------------------------------------
-   SysCtrlRegs.PCLKCR0.bit.SPIAENCLK = 0;   // SPI-A
+   //SysCtrlRegs.PCLKCR0.bit.SPIAENCLK = 1;   // SPI-A
    //------------------------------------------------
    //SysCtrlRegs.PCLKCR0.bit.SCIAENCLK = 1;     // SCI-A
    //------------------------------------------------
@@ -229,10 +229,10 @@ void DeviceInit(void)
 //  GPIO-13 - GPIO-15 Do Not Exist
 //--------------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------------
- */
+
 //  GPIO-16 - PIN FUNCTION = --Spare--
-    GpioCtrlRegs.GPAMUX2.bit.GPIO16 = 0;    // 0=GPIO,  1=SPISIMO-A,  2=Resv,  3=TZ2
-    GpioCtrlRegs.GPADIR.bit.GPIO16 = 0;     // 1=OUTput,  0=INput
+//    GpioCtrlRegs.GPAMUX2.bit.GPIO16 = 0;    // 0=GPIO,  1=SPISIMO-A,  2=Resv,  3=TZ2
+//    GpioCtrlRegs.GPADIR.bit.GPIO16 = 0;     // 1=OUTput,  0=INput
 //  GpioDataRegs.GPACLEAR.bit.GPIO16 = 1;   // uncomment if --> Set Low initially
 //  GpioDataRegs.GPASET.bit.GPIO16 = 1;     // uncomment if --> Set High initially
 //--------------------------------------------------------------------------------------
@@ -253,7 +253,7 @@ void DeviceInit(void)
     GpioCtrlRegs.GPADIR.bit.GPIO19 = 1;     // 1=OUTput,  0=INput
     GpioDataRegs.GPACLEAR.bit.GPIO19 = 1;   // uncomment if --> Set Low initially
 //  GpioDataRegs.GPASET.bit.GPIO19 = 1;     // uncomment if --> Set High initially
-//--------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------  */
 //  GPIO-20 - GPIO-27 Do Not Exist
 //--------------------------------------------------------------------------------------
 //  GPIO-28 - PIN FUNCTION = --Spare--

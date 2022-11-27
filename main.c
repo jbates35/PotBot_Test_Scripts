@@ -5,6 +5,9 @@
 #include "adc.h"
 #include "dsp.h"
 #include "uart.h"
+#include "spi.h"
+
+#define TESTING_DEF
 
 /**
  * main.c
@@ -21,6 +24,7 @@ int16_t adc_out_y = 0; // output buffer for y
 int16_t fir_N;          //Length of array
 int16_t fir_counter;    // Point of array where FIR is calculated from
 
+int asdf_1;
 
 N = FIR_INPUT_SIZE;
 fir_counter = FIR_INPUT_SIZE-1;
@@ -38,7 +42,7 @@ int buffer_index; // keeps track of parsed string position
 int buffer_string_ready;
 
 int main(void)
-{
+ {
     DeviceInit();
 
     CpuTimer0Regs.PRD.all = mSec1 * 20;
@@ -48,6 +52,9 @@ int main(void)
     float dc_min[8] = { 0.018, 0.018, 0.018, 0,0,0,0,0 };
     float dc_max[8] = { 0.118, 0.118, 0.118, 0,0,0,0,0 };
 
+
+
+
     servo_init(3, dc_min, dc_max); // initialize 3 servos
     enable_epwm_interrupts(3); // Enable EPWM interrupts
 
@@ -55,6 +62,8 @@ int main(void)
     //adc_trigger_select(0, TRIGGER_EPWM1A);
 
     uart_init();
+
+    spi_init();
 
     //Stuff for servo
     //int16_t servo_degs = 0;
@@ -70,7 +79,7 @@ int main(void)
     buffer_string_ready = 0;
 
     while(1) {
-
+        /*
         if(SciaRegs.SCIFFRX.bit.RXFFINT==1) {
             //ISR Function below
             uart_rx(&buffer_string, &buffer_string_ready);
@@ -93,12 +102,23 @@ int main(void)
             //Post for parsing
             parse_rx(completed_string, &x_next, &y_next, &z);
         }
-
+        */
         //END UART ISR
+
+
 
         if(CpuTimer1Regs.TCR.bit.TIF==1) {
             CpuTimer1Regs.TCR.bit.TIF=1;
-            uart_tx_char('r');
+//
+            spi_send_int(150, Y_PARAM);
+
+//            //Wait for buffer to not be full
+            //SpiaRegs.SPITXBUF = 150 + asdf_1*50;
+
+//            SpiaRegs.SPITXBUF == 200;
+
+
+            //uart_tx_char('r');
         }
 
 

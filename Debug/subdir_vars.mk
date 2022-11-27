@@ -15,6 +15,7 @@ C_SRCS += \
 ../dsp.c \
 ../main.c \
 ../servo.c \
+../spi.c \
 ../uart.c 
 
 C_DEPS += \
@@ -23,6 +24,7 @@ C_DEPS += \
 ./dsp.d \
 ./main.d \
 ./servo.d \
+./spi.d \
 ./uart.d 
 
 OBJS += \
@@ -31,6 +33,7 @@ OBJS += \
 ./dsp.obj \
 ./main.obj \
 ./servo.obj \
+./spi.obj \
 ./uart.obj 
 
 OBJS__QUOTED += \
@@ -39,6 +42,7 @@ OBJS__QUOTED += \
 "dsp.obj" \
 "main.obj" \
 "servo.obj" \
+"spi.obj" \
 "uart.obj" 
 
 C_DEPS__QUOTED += \
@@ -47,6 +51,7 @@ C_DEPS__QUOTED += \
 "dsp.d" \
 "main.d" \
 "servo.d" \
+"spi.d" \
 "uart.d" 
 
 C_SRCS__QUOTED += \
@@ -55,6 +60,7 @@ C_SRCS__QUOTED += \
 "../dsp.c" \
 "../main.c" \
 "../servo.c" \
+"../spi.c" \
 "../uart.c" 
 
 
